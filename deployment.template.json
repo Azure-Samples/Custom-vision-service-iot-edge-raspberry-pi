@@ -23,7 +23,7 @@
             "status": "running",
             "restartPolicy": "always",
             "settings": {
-              "image": "ebertraacr.azurecr.io/microsoft/azureiotedge-hub:13119031-linux-arm32v7",
+              "image": "ebertraacr.azurecr.io/azureiotedge-hub:1.0-preview",
               "createOptions": ""
             }
           }

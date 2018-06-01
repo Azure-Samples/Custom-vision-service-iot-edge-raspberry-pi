@@ -13,10 +13,11 @@ This is a sample showing how to deploy a Custom Vision model to a Raspberry Pi 3
 - **SenseHat display** - this module gets messages from the edgeHub and blinks the raspberry Pi's senseHat according to the tags specified in the inputs messages. This module is written in python and requires a [SenseHat](https://www.raspberrypi.org/products/sense-hat/) to work.
 
 ## Get started
-Build the full solution by running the `Build IoT Edge Solution` command from the [Azure IoT Edge extension in VS Code](https://marketplace.visualstudio.com/items?itemName=vsciot-vscode.azure-iot-edge).
+1- Update the module.json files of the 3 modules above to point to your own Azure Container Registry
+2- Build the full solution by running the `Build IoT Edge Solution` command from the [Azure IoT Edge extension in VS Code](https://marketplace.visualstudio.com/items?itemName=vsciot-vscode.azure-iot-edge).
 
 ## Prerequisites
 
 You can run this solution on either of the following hardware:
 - **Raspberry Pi 3**: Set up Azure IoT Edge on a Raspberry Pi 3 ([instructions](https://blog.jongallant.com/2017/11/azure-iot-edge-raspberrypi/)) with a [SenseHat](https://www.raspberrypi.org/products/sense-hat/) and use the arm32v7 module tags.
-- **Simulated Azure IoT Edge device** (such as a PC): Set up Azure IoT Edge ([instructions on Windows](https://docs.microsoft.com/en-us/azure/iot-edge/tutorial-simulate-device-windows), [instructions on Linux](https://docs.microsoft.com/en-us/azure/iot-edge/tutorial-simulate-device-linux)) and use the amd64 tags. 
+- **Simulated Azure IoT Edge device** (such as a PC): Set up Azure IoT Edge ([instructions on Windows](https://docs.microsoft.com/en-us/azure/iot-edge/tutorial-simulate-device-windows), [instructions on Linux](https://docs.microsoft.com/en-us/azure/iot-edge/tutorial-simulate-device-linux)) and use the amd64 module tags. 
