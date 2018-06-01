@@ -14,6 +14,7 @@ This is a sample showing how to deploy a Custom Vision model to a Raspberry Pi 3
 
 ## Get started
 1- Update the module.json files of the 3 modules above to point to your own Azure Container Registry
+
 2- Build the full solution by running the `Build IoT Edge Solution` command from the [Azure IoT Edge extension in VS Code](https://marketplace.visualstudio.com/items?itemName=vsciot-vscode.azure-iot-edge).
 
 ## Prerequisites
