@@ -1,4 +1,10 @@
-# Custom Vision + Azure IoT Edge on a Raspberry Pi 3 demo
+---
+services: iot-edge, custom-vision-service, iot-hub
+platforms: python
+author: ebertrams
+---
+
+# Custom Vision + Azure IoT Edge on a Raspberry Pi 3
 
 This is a sample showing how to deploy a Custom Vision model to a Raspberry Pi 3 device running Azure IoT Edge. This solution is made of 3 modules:
 
