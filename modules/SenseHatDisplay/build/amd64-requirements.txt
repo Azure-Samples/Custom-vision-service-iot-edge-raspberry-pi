@@ -1,0 +1,3 @@
+azure-iothub-device-client==1.3.0.0b0
+sense-hat
+rtimulib

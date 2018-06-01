@@ -1,13 +1,5 @@
-## [project-title] Changelog
+## Custom Vision + Azure IoT Edge on a Raspberry Pi 3 demo Changelog
 
-<a name="x.y.z"></a>
-# x.y.z (yyyy-mm-dd)
-
-*Features*
-* ...
-
-*Bug Fixes*
-* ...
-
-*Breaking Changes*
-* ...
+<a name="1.0.0"></a>
+# 1.0.0 release (2018-05-30)
+First release
