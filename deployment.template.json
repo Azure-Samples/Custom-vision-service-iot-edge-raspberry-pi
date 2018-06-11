@@ -23,7 +23,7 @@
             "status": "running",
             "restartPolicy": "always",
             "settings": {
-              "image": "ebertraacr.azurecr.io/azureiotedge-hub:1.0-preview",
+              "image": "microsoft/azureiotedge-hub:1.0-preview",
               "createOptions": ""
             }
           }
