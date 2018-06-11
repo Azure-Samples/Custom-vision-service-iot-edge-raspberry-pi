@@ -4,12 +4,12 @@
     "image": {
         "repository": "ebertraacr.azurecr.io/cameracapture",
         "tag": {
-            "version": "0.1.32",
+            "version": "0.1.34",
             "platforms": {
                 "amd64": "./amd64.Dockerfile",
                 "arm32v7": "./arm32v7.Dockerfile",
-                "test-arm32v7": "./test/test-arm32v7.Dockerfile",
-                "test-amd64": "./test/test-amd64.Dockerfile"
+                "test-arm32v7": "./test-arm32v7.Dockerfile",
+                "test-amd64": "./test-amd64.Dockerfile"
             }
         }
     },

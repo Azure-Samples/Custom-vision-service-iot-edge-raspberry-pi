@@ -16,4 +16,7 @@ RUN apt-get update && \
 ADD /app/ .
 ADD /test/ .
 
+
+#Manually run the main.py or test other functions
+#CMD ["bash"]
 CMD [ "python", "-u", "./main.py" ]
