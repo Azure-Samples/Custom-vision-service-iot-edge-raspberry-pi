@@ -14,5 +14,6 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 ADD /app/ .
+ADD /test/ .
 
 CMD [ "python", "-u", "./main.py" ]
