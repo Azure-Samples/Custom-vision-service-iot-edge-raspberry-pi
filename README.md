@@ -6,6 +6,9 @@ author: ebertrams
 
 # Custom Vision + Azure IoT Edge on a Raspberry Pi 3
 
+> [!NOTE]
+> This sample still uses the IoT Edge Preview bits. To use it with the new IoT Edge GA bits, you will need to update the **Camera capture** and **SenseHat display** modules manually to use the latest IoT SDK versions. The **Custom vision** should remain the same. 
+
 This is a sample showing how to deploy a Custom Vision model to a Raspberry Pi 3 device running Azure IoT Edge. This solution is made of 3 modules:
 
 - **Camera capture** - this module captures the video stream from a USB camera, sends the frames for analysis to the custom vision module and shares the output of this analysis to the edgeHub. This module is written in python and uses [OpenCV](https://opencv.org/) to read the video feed.

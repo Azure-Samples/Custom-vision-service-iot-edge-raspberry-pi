@@ -1,7 +1,7 @@
 # Azure IoT Edge Camera Capture module
 
 This container is an IoT Edge module that can read a video stream from a camera or from a video file and optionally send frames to IoT Edge module for processing. It forwards all processing results to the Edge Hub.
-It is a Linux Docker container made for AMD64and ARM  processors written in Python.
+It is a Linux Docker container made for AMD64 and ARM  processors written in Python.
 
 ## Additional configurations
 You can use the current conifguration set in the deployment manifest file or update the configuration of this module as follow:
