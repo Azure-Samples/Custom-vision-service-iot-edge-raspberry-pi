@@ -21,5 +21,3 @@ e.g.
 POST http://127.0.0.1/url with a json body of { "Url": "<test url here>" }
 e.g.
     curl -X POST http://127.0.0.1/url -d "{ \"Url\": \"<test url here>\" }"
-
-For information on how to use these files to create and deploy through AzureML check out the readme.txt in the azureml directory.
