@@ -7,14 +7,21 @@
           "type": "docker",
           "settings": {
             "minDockerVersion": "v1.25",
-            "loggingOptions": ""
+            "loggingOptions": "",
+            "registryCredentials": {
+              "registryName": {
+                "username": "$CONTAINER_REGISTRY_USERNAME",
+                "password": "$CONTAINER_REGISTRY_PASSWORD",
+                "address": "localhost:5000"
+              }
+            }
           }
         },
         "systemModules": {
           "edgeAgent": {
             "type": "docker",
             "settings": {
-              "image": "microsoft/azureiotedge-agent:1.0-preview",
+              "image": "microsoft/azureiotedge-agent:1.0",
               "createOptions": ""
             }
           },
@@ -23,7 +30,7 @@
             "status": "running",
             "restartPolicy": "always",
             "settings": {
-              "image": "microsoft/azureiotedge-hub:1.0-preview",
+              "image": "microsoft/azureiotedge-hub:1.0",
               "createOptions": ""
             }
           }
@@ -35,18 +42,8 @@
             "status": "running",
             "restartPolicy": "always",
             "settings": {
-              "image": "ebertraacr.azurecr.io/cameracapture:0.1.34-arm32v7",
-              "createOptions": "{\"Env\":[\"VIDEO_PATH=0\",\"IMAGE_PROCESSING_ENDPOINT=http://image-classifier-service:80/image\", \"VERBOSE=TRUE\", \"RESIZE_WIDTH=256\", \"RESIZE_HEIGHT=256\"], \"HostConfig\":{\"Binds\":[\"/dev/video0:/dev/video0\"],\"Privileged\":true}}"
-            }
-          },
-          "sensehat-display": {
-            "version": "1.0",
-            "type": "docker",
-            "status": "running",
-            "restartPolicy": "always",
-            "settings": {
-              "image": "ebertraacr.azurecr.io/sensehatdisplay:0.1.14-arm32v7",
-              "createOptions": "{\"Env\":[\"THRESHOLD=0.6\"], \"HostConfig\":{\"Binds\":[\"/dev/i2c1:/dev/i2c1\"],\"Privileged\":true}}"
+              "image": "localhost:5000/cameracapture:0.1.34-test-amd64",
+              "createOptions": "{\"Env\":[\"VIDEO_PATH=./AppleAndBanana.mp4\",\"IMAGE_PROCESSING_ENDPOINT=http://image-classifier-service:80/image\", \"VERBOSE=TRUE\", \"RESIZE_WIDTH=256\", \"RESIZE_HEIGHT=256\"], \"HostConfig\":{\"Binds\":[\"/dev/video0:/dev/video0\"],\"Privileged\":true}}"
             }
           },
           "image-classifier-service": {
@@ -55,7 +52,7 @@
             "status": "running",
             "restartPolicy": "always",
             "settings": {
-              "image": "ebertraacr.azurecr.io/imageclassifierservice:0.0.4-arm32v7",
+              "image": "localhost:5000/imageclassifierservice:0.0.4-amd64",
               "createOptions": ""
             }
           }
@@ -66,7 +63,6 @@
       "properties.desired": {
         "schemaVersion": "1.0",
         "routes": {
-          "CameraCaptureToSenseHatDisplay": "FROM /messages/modules/camera-capture/outputs/output1 INTO BrokeredEndpoint(\"/modules/sensehat-display/inputs/input1\")",
           "CameraCaptureToIoTHub": "FROM /messages/modules/camera-capture/outputs/output1 INTO $upstream"
         },
         "storeAndForwardConfiguration": {
