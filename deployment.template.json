@@ -32,6 +32,11 @@
             "settings": {
               "image": "mcr.microsoft.com/azureiotedge-hub:1.0",
               "createOptions": ""
+            },
+            "env": {
+                "OptimizeForPerformance": {
+                  "value": "false"
+                }
             }
           }
         },
