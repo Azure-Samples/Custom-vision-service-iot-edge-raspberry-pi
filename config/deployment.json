@@ -10,9 +10,9 @@
             "loggingOptions": "",
             "registryCredentials": {
               "registryName": {
-                "username": "$CONTAINER_REGISTRY_USERNAME",
-                "password": "$CONTAINER_REGISTRY_PASSWORD",
-                "address": "localhost:5000"
+                "username": "ebertraACR",
+                "password": "LtsBf=FrqFMGY/6ERgCRY0gRDvLYYYul",
+                "address": "ebertraacr.azurecr.io"
               }
             }
           }
@@ -42,7 +42,7 @@
             "status": "running",
             "restartPolicy": "always",
             "settings": {
-              "image": "localhost:5000/cameracapture:0.1.34-test-amd64",
+              "image": "ebertraacr.azurecr.io/cameracapture:0.2.0-test-amd64",
               "createOptions": "{\"Env\":[\"VIDEO_PATH=./AppleAndBanana.mp4\",\"IMAGE_PROCESSING_ENDPOINT=http://image-classifier-service:80/image\", \"VERBOSE=TRUE\", \"RESIZE_WIDTH=256\", \"RESIZE_HEIGHT=256\"], \"HostConfig\":{\"Binds\":[\"/dev/video0:/dev/video0\"],\"Privileged\":true}}"
             }
           },
@@ -52,7 +52,7 @@
             "status": "running",
             "restartPolicy": "always",
             "settings": {
-              "image": "localhost:5000/imageclassifierservice:0.0.4-amd64",
+              "image": "ebertraacr.azurecr.io/imageclassifierservice:0.2.0-amd64",
               "createOptions": ""
             }
           }
