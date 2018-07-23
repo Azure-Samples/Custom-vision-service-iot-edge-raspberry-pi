@@ -1,3 +1,2 @@
 numpy
 requests
-azure-iothub-device-client

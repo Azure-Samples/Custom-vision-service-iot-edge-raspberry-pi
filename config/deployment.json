@@ -47,7 +47,7 @@
             "status": "running",
             "restartPolicy": "always",
             "settings": {
-              "image": "ebertraacr.azurecr.io/cameracapture:0.2.0-arm32v7",
+              "image": "ebertraacr.azurecr.io/cameracapture:0.2.2-arm32v7",
               "createOptions": "{\"Env\":[\"VIDEO_PATH=0\",\"IMAGE_PROCESSING_ENDPOINT=http://image-classifier-service:80/image\", \"VERBOSE=TRUE\", \"RESIZE_WIDTH=256\", \"RESIZE_HEIGHT=256\"], \"HostConfig\":{\"Binds\":[\"/dev/video0:/dev/video0\"],\"Privileged\":true}}"
             }
           },
@@ -57,7 +57,7 @@
             "status": "running",
             "restartPolicy": "always",
             "settings": {
-              "image": "ebertraacr.azurecr.io/sensehatdisplay:0.2.0-arm32v7",
+              "image": "ebertraacr.azurecr.io/sensehatdisplay:0.2.2-arm32v7",
               "createOptions": "{\"Env\":[\"THRESHOLD=0.6\"], \"HostConfig\":{\"Binds\":[\"/dev/i2c1:/dev/i2c1\"],\"Privileged\":true}}"
             }
           },

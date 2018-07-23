@@ -48,7 +48,7 @@ class HubManager(object):
 
 
 
-def main(connection_string):
+def main():
     try:
         print ( "Starting the SenseHat module...")
 
@@ -56,7 +56,7 @@ def main(connection_string):
         global MESSAGE_PARSER
         DISPLAY_MANAGER = DisplayManager()
         MESSAGE_PARSER = MessageParser()
-        hubManager = HubManager(connection_string)
+        hubManager = HubManager()
 
         while True:
             time.sleep(1000)
