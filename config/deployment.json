@@ -8,7 +8,13 @@
           "settings": {
             "minDockerVersion": "v1.25",
             "loggingOptions": "",
-            "registryCredentials": {}
+            "registryCredentials": {
+              "registryName": {
+                "username": "ebertraACR",
+                "password": "LtsBf=FrqFMGY/6ERgCRY0gRDvLYYYul",
+                "address": "ebertraacr.azurecr.io"
+              }
+            }
           }
         },
         "systemModules": {
@@ -26,6 +32,11 @@
             "settings": {
               "image": "mcr.microsoft.com/azureiotedge-hub:1.0",
               "createOptions": ""
+            },
+            "env": {
+                "OptimizeForPerformance": {
+                  "value": "false"
+                }
             }
           }
         },
@@ -57,16 +68,6 @@
             "restartPolicy": "always",
             "settings": {
               "image": "ebertraacr.azurecr.io/imageclassifierservice:0.2.0-arm32v7",
-              "createOptions": ""
-            }
-          },
-          "CameraCaptureGA": {
-            "version": "1.0",
-            "type": "docker",
-            "status": "running",
-            "restartPolicy": "always",
-            "settings": {
-              "image": "localhost:5000/cameracapturega:0.0.1-amd64",
               "createOptions": ""
             }
           }
