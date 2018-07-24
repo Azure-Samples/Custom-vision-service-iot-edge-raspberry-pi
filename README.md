@@ -47,14 +47,14 @@ To learn more about this development environment, check out [this tutorial](http
 ## Get started
 ### On a Raspberry Pi 3
 1. Clone this sample
-2. Update the `.env` file with the values for your container registry
+2. Update the `.env` file with the values for your container registry and make sure that your docker engine has access to it
 3. Build the entire solution by right-clicking on the `deployment.template.json` file and select `Build IoT Edge Solution`
 4. Deploy the solution to your device by right-clicking on the `config/deployment.json` file, select `Create Deployment for IoT Edge device` and choose your targeted device
 5. Monitor the messages being sent to the Cloud by right-clicking on yoru device from the VS Code IoT Edge extenstion and select `Start Monitoring D2C Message` 
 
 ### On an x64 PC
 1. Clone this sample
-1. Update the `.env` file with the values for your container registry
+1. Update the `.env` file with the values for your container registry and make sure that your docker engine has access to it
 2. Rename the `deployment.template.json` file into `deployment.template.RPI.json`
 3. Rename the `deployment.template.test-amd64.json` file into `deployment.template.json`
 4. Build the entire solution by right-clicking on the `deployment.template.json` file and select `Build IoT Edge Solution`
