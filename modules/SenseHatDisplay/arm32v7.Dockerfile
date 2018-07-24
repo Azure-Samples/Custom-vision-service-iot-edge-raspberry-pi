@@ -19,7 +19,7 @@ RUN pip3 install --upgrade pip
 RUN pip install --upgrade setuptools 
 RUN pip install -r arm32v7-requirements.txt
 
-#Needed to use iothub_client.so. iothub_client is manually compiled until an ARM version can be installed through pip install
+#Needed by iothub_client
 RUN apt-get install -y libboost-python1.62.0
 
 #Extra dependencies to use sense-hat on this distribution
@@ -34,6 +34,4 @@ ADD /build/ .
 
 RUN [ "cross-build-end" ]  
 
-ENTRYPOINT ["python3","-u"]
-CMD ["./main.py"] 
-#CMD [ "/usr/bin/python3.5", "-u", "./main.py" ]
+ENTRYPOINT ["python3","-u", "./main.py"]

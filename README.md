@@ -6,7 +6,11 @@ author: ebertrams
 
 # Custom Vision + Azure IoT Edge on a Raspberry Pi 3
 
-This is a sample showing how to deploy a Custom Vision model to a Raspberry Pi 3 device running Azure IoT Edge.  It can also be deployed on an x64 machine. It has been ported to the newer IoT Edge GA bits. This solution is made of 3 modules:
+This is a sample showing how to deploy a Custom Vision model to a Raspberry Pi 3 device running Azure IoT Edge.  It can also be deployed on an x64 machine. It has been ported to the newer IoT Edge GA bits.
+
+Check out [this video](https://www.youtube.com/watch?v=_K5fqGLO8us) to see this demo in action and understand how it was built.
+
+This solution is made of 3 modules:
 
 - **Camera capture** - this module captures the video stream from a USB camera, sends the frames for analysis to the custom vision module and shares the output of this analysis to the edgeHub. This module is written in python and uses [OpenCV](https://opencv.org/) to read the video feed.
 - **Custom vision** - it is a web service over HTTP running locally that takes in images and classifies them based on a custom model built via the [Custom Vision website](https://azure.microsoft.com/en-us/services/cognitive-services/custom-vision-service/). This module has been exported from the Custom Vision website and slightly modified to run on a ARM architecture. You can modify it by updating the model.pb and label.txt files to update the model.
@@ -29,6 +33,7 @@ Check out [this tutorial](https://docs.microsoft.com/en-us/azure/iot-edge/module
 
 
 ### Tooling
+You need the following dev tools to do IoT Edge development in general, to make this sample run and edit it:
 - **Visual Studio Code**: IoT Edge development environment. [Download it from here](https://code.visualstudio.com/).
 - **Visual Studio Code: Azure IoT Edge Extension**: An extension that connects to your IoT Hub and lets you manage your IoT Devices and IoT Edge Devices right from VS Code. A must-have for IoT Edge development. [Download it from here](https://marketplace.visualstudio.com/items?itemName=vsciot-vscode.azure-iot-edge). Once installed, connect it to your IoT Hub.
 

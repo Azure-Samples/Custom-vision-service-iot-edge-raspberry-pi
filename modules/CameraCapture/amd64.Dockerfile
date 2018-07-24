@@ -15,4 +15,4 @@ RUN apt-get update && \
 
 ADD /app/ .
 
-CMD [ "python", "-u", "./main.py" ]
+ENTRYPOINT [ "python", "-u", "./main.py" ]
