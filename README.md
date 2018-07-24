@@ -19,7 +19,7 @@ You can run this solution on either of the following hardware:
 
 - **Raspberry Pi 3**: Set up Azure IoT Edge on a Raspberry Pi 3 ([instructions to set up the hardware](https://blog.jongallant.com/2017/11/raspberrypi-setup/) + [instructions to install Azure IoT Edge](https://docs.microsoft.com/en-us/azure/iot-edge/how-to-install-iot-edge-linux-arm)) with a [SenseHat](https://www.raspberrypi.org/products/sense-hat/) and use the arm32v7 tags.
 
-- **Simulated Azure IoT Edge device** (such as a PC): Set up Azure IoT Edge ([instructions on Windows](https://docs.microsoft.com/en-us/azure/iot-edge/how-to-install-iot-edge-windows-with-linux), [instructions on Linux](https://docs.microsoft.com/en-us/azure/iot-edge/how-to-install-iot-edge-linux)) and use the amd64 tags. A test x64 deployment manifest is already available. To use it, rename the 'deployment.template.test-amd-64' to 'deployment.template.json', then build the IoT Edge solution from this manifest and deploy it to an x64 device.
+- **Simulated Azure IoT Edge device** (such as a PC): Set up Azure IoT Edge ([instructions on Windows](https://docs.microsoft.com/en-us/azure/iot-edge/how-to-install-iot-edge-windows-with-linux), [instructions on Linux](https://docs.microsoft.com/en-us/azure/iot-edge/how-to-install-iot-edge-linux)) and use the amd64 tags. A test x64 deployment manifest is already available. To use it, rename the 'deployment.template.test-amd64' to 'deployment.template.json', then build the IoT Edge solution from this manifest and deploy it to an x64 device.
  
 ### Services
 Check out [this tutorial](https://docs.microsoft.com/en-us/azure/iot-edge/module-deployment-monitoring) to see how a IoT Edge deployment works. You must have the following services set up to use this sample:
@@ -36,18 +36,18 @@ To learn more about this development environment, check out [this tutorial](http
 
 ## Get started
 ### On a Raspberry Pi 3
-1- Clone this sample
-2- Update the `.env` file with the values for your container registry
-3- Build the entire solution by right-clicking on the `deployment.template.json` file and select `Build IoT Edge Solution`
-4- Deploy the solution to your device by right-clicking on the `config/deployment.json` file, select `Create Deployment for IoT Edge device` and choose your targeted device
+1. Clone this sample
+2. Update the `.env` file with the values for your container registry
+3. Build the entire solution by right-clicking on the `deployment.template.json` file and select `Build IoT Edge Solution`
+4. Deploy the solution to your device by right-clicking on the `config/deployment.json` file, select `Create Deployment for IoT Edge device` and choose your targeted device
 
 ### On an x64 PC
-1- Clone this sample
-2- Update the `.env` file with the values for your container registry
-3- Rename the `deployment.template.json` file into `deployment.template.RPI.json`
-4- Rename the `deployment.template.amd64-test.json` file into `deployment.template.json`
-5- Build the entire solution by right-clicking on the `deployment.template.json` file and select `Build IoT Edge Solution`
-6- Deploy the solution to your device by right-clicking on the `config/deployment.json` file, select `Create Deployment for IoT Edge device` and choose your targeted device
+1. Clone this sample
+1. Update the `.env` file with the values for your container registry
+2. Rename the `deployment.template.json` file into `deployment.template.RPI.json`
+3. Rename the `deployment.template.test-amd64.json` file into `deployment.template.json`
+4. Build the entire solution by right-clicking on the `deployment.template.json` file and select `Build IoT Edge Solution`
+5. Deploy the solution to your device by right-clicking on the `config/deployment.json` file, select `Create Deployment for IoT Edge device` and choose your targeted device
 
 ## Going further
 ### Update the AI model
