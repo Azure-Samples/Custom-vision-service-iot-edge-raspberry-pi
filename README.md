@@ -64,5 +64,5 @@ To learn more about this development environment, check out [this tutorial](http
 ## Going further
 ### Update the AI model
 Download your own custom vision model from the custom vision service. You just need to replace the `ImageClassifierService/app/model.pb` and `ImageClassifierService/app/labels.txt` provided by the export feature of Custom Vision. 
-### Update the Camera module
+### Update the configuration of the camera capture module
 Explore the various configuration options of the camera module availabel [here](https://github.com/Azure-Samples/Custom-vision-service-iot-edge-raspberry-pi/tree/master/modules/CameraCapture), to score your ai model against a camera feed vs a video clip, to resize your images, to see logs, etc.
