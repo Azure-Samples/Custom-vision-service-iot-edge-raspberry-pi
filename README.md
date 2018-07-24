@@ -8,7 +8,9 @@ author: ebertrams
 
 This is a sample showing how to deploy a Custom Vision model to a Raspberry Pi 3 device running Azure IoT Edge.  It can also be deployed on an x64 machine. It has been ported to the newer IoT Edge GA bits.
 
-Check out [this video](https://www.youtube.com/watch?v=_K5fqGLO8us) to see this demo in action and understand how it was built.
+Check out this video to see this demo in action and understand how it was built:
+
+[![Custom Vision On Raspberry Pi Video](assets/CustomVisionOnRPi.png)](https://www.youtube.com/watch?v=_K5fqGLO8us)
 
 This solution is made of 3 modules:
 
@@ -23,21 +25,24 @@ You can run this solution on either of the following hardware:
 
 - **Raspberry Pi 3**: Set up Azure IoT Edge on a Raspberry Pi 3 ([instructions to set up the hardware](https://blog.jongallant.com/2017/11/raspberrypi-setup/) + [instructions to install Azure IoT Edge](https://docs.microsoft.com/en-us/azure/iot-edge/how-to-install-iot-edge-linux-arm)) with a [SenseHat](https://www.raspberrypi.org/products/sense-hat/) and use the arm32v7 tags.
 
-- **Simulated Azure IoT Edge device** (such as a PC): Set up Azure IoT Edge ([instructions on Windows](https://docs.microsoft.com/en-us/azure/iot-edge/how-to-install-iot-edge-windows-with-linux), [instructions on Linux](https://docs.microsoft.com/en-us/azure/iot-edge/how-to-install-iot-edge-linux)) and use the amd64 tags. A test x64 deployment manifest is already available. To use it, rename the 'deployment.template.test-amd64' to 'deployment.template.json', then build the IoT Edge solution from this manifest and deploy it to an x64 device.
+- **Simulated Azure IoT Edge device** (such as a PC): Set up Azure IoT Edge ([instructions on Windows](https://docs.microsoft.com/en-us/azure/iot-edge/how-to-install-iot-edge-windows-with-linux), [instructions on Linux](https://docs.microsoft.com/en-us/azure/iot-edge/how-to-install-iot-edge-linux)) and use the amd64 tags. A test x64 deployment manifest is already available. To use it, rename the `deployment.template.test-amd64` to `deployment.template.json`, then build the IoT Edge solution from this manifest and deploy it to an x64 device.
  
 ### Services
-Check out [this tutorial](https://docs.microsoft.com/en-us/azure/iot-edge/module-deployment-monitoring) to see how a IoT Edge deployment works. You must have the following services set up to use this sample:
+Check out the animation below to see how a IoT Edge deployment works. You can also get more details through [this tutorial](https://docs.microsoft.com/en-us/azure/iot-edge/module-deployment-monitoring) to see how a IoT Edge deployment works. You must have the following services set up to use this sample:
 - **Azure IoT Hub**: This is your Cloud gateway which is needed to manage your IoT Edge devices. All deployments to Edge devices are made through an IoT Hub. You can use the free sku for this sample.
 - **Azure Container Registry**: This is where you host your containers (e.g. IoT Edge modules). Deployment manifests refer to this container registry for the IoT Edge devices to download their images.You can use the free sku for this sample.
 
 
+![IoT Edge deployment workflow](assets/IoTEdgeDeployment.gif)
 
 ### Tooling
 You need the following dev tools to do IoT Edge development in general, to make this sample run and edit it:
 - **Visual Studio Code**: IoT Edge development environment. [Download it from here](https://code.visualstudio.com/).
 - **Visual Studio Code: Azure IoT Edge Extension**: An extension that connects to your IoT Hub and lets you manage your IoT Devices and IoT Edge Devices right from VS Code. A must-have for IoT Edge development. [Download it from here](https://marketplace.visualstudio.com/items?itemName=vsciot-vscode.azure-iot-edge). Once installed, connect it to your IoT Hub.
 
-To learn more about this development environment, check out [this tutorial](https://docs.microsoft.com/en-us/azure/iot-edge/how-to-deploy-modules-vscode) and [this video](https://channel9.msdn.com/Shows/Internet-of-Things-Show/Azure-IoT-Edge-extension-for-Visual-Studio-Code).
+To learn more about this development environment, check out [this tutorial](https://docs.microsoft.com/en-us/azure/iot-edge/how-to-deploy-modules-vscode) and this video:
+
+[![Visual Studio Code Extension Video](assets/VSCodeExtension.png)](https://www.youtube.com/watch?v=C5eTQ1cwlLk&t=1s&index=35&list=PLlrxD0HtieHh5_pOv-6xsMxS3URD6XD52)
 
 ## Get started
 ### On a Raspberry Pi 3
@@ -45,6 +50,7 @@ To learn more about this development environment, check out [this tutorial](http
 2. Update the `.env` file with the values for your container registry
 3. Build the entire solution by right-clicking on the `deployment.template.json` file and select `Build IoT Edge Solution`
 4. Deploy the solution to your device by right-clicking on the `config/deployment.json` file, select `Create Deployment for IoT Edge device` and choose your targeted device
+5. Monitor the messages being sent to the Cloud by right-clicking on yoru device from the VS Code IoT Edge extenstion and select `Start Monitoring D2C Message` 
 
 ### On an x64 PC
 1. Clone this sample
@@ -53,6 +59,7 @@ To learn more about this development environment, check out [this tutorial](http
 3. Rename the `deployment.template.test-amd64.json` file into `deployment.template.json`
 4. Build the entire solution by right-clicking on the `deployment.template.json` file and select `Build IoT Edge Solution`
 5. Deploy the solution to your device by right-clicking on the `config/deployment.json` file, select `Create Deployment for IoT Edge device` and choose your targeted device
+6. Monitor the messages being sent to the Cloud by right-clicking on yoru device from the VS Code IoT Edge extenstion and select `Start Monitoring D2C Message` 
 
 ## Going further
 ### Update the AI model
