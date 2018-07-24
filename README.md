@@ -10,8 +10,7 @@ This is a sample showing how to deploy a Custom Vision model to a Raspberry Pi 3
 
 Check out this video to see this demo in action and understand how it was built:
 
-[![Custom Vision On Raspberry Pi Video](assets/CustomVisionOnRPiDemo.png)]
-(https://www.youtube.com/watch?v=_K5fqGLO8us)
+[![Custom Vision On Raspberry Pi Video](assets/CustomVisionOnRPiDemo.png)](https://www.youtube.com/watch?v=_K5fqGLO8us)
 
 This solution is made of 3 modules:
 
@@ -43,8 +42,7 @@ You need the following dev tools to do IoT Edge development in general, to make 
 
 To learn more about this development environment, check out [this tutorial](https://docs.microsoft.com/en-us/azure/iot-edge/how-to-deploy-modules-vscode) and this video:
 
-[![Visual Studio Code Extension Video](assets/VSCodeExtensionVideo.png)]
-(https://www.youtube.com/watch?v=C5eTQ1cwlLk&t=1s&index=35&list=PLlrxD0HtieHh5_pOv-6xsMxS3URD6XD52)
+[![Visual Studio Code Extension Video](assets/VSCodeExtensionVideo.png)](https://www.youtube.com/watch?v=C5eTQ1cwlLk&t=1s&index=35&list=PLlrxD0HtieHh5_pOv-6xsMxS3URD6XD52)
 
 ## Get started
 ### On a Raspberry Pi 3
