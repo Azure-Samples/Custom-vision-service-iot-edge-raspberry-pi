@@ -35,4 +35,4 @@ ADD /test/ .
 RUN [ "cross-build-end" ]  
 
 #Manually run the IntegrationTests.py or test other functions
-CMD ["bash"]
+ENTRYPOINT ["bash"]
