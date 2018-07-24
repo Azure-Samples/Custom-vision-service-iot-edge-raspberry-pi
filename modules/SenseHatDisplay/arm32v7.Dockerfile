@@ -34,4 +34,6 @@ ADD /build/ .
 
 RUN [ "cross-build-end" ]  
 
-CMD [ "python3", "-u", "./main.py" ]
+ENTRYPOINT ["python3","-u"]
+CMD ["./main.py"] 
+#CMD [ "/usr/bin/python3.5", "-u", "./main.py" ]

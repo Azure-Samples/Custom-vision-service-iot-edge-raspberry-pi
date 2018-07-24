@@ -57,7 +57,7 @@
             "status": "running",
             "restartPolicy": "always",
             "settings": {
-              "image": "ebertraacr.azurecr.io/sensehatdisplay:0.2.2-arm32v7",
+              "image": "ebertraacr.azurecr.io/sensehatdisplay:0.2.6-arm32v7",
               "createOptions": "{\"Env\":[\"THRESHOLD=0.6\"], \"HostConfig\":{\"Binds\":[\"/dev/i2c1:/dev/i2c1\"],\"Privileged\":true}}"
             }
           },
