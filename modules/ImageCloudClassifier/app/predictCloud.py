@@ -15,6 +15,8 @@ from io import BytesIO
 
 # Replace <Subscription Key> with your valid subscription key. Subscription Key is being passed as an Environment Variable.
 subscription_key = os.getenv("SUBSCRIPTION_KEY")
+pushover_token = os.getenv("PUSHOVER_TOKEN")
+pushover_user = os.getenv("PUSHOVER_USER")
 assert subscription_key
 
 # You must use the same region in your REST call as you used to get your
@@ -54,3 +56,12 @@ def analyze_image_external(subscription_key, analyze_url, image):
     print(analysis)
     image_caption = analysis["description"]["captions"][0]["text"].capitalize()
     return image_caption
+def push_notification():
+    conn = http.client.HTTPSConnection("api.pushover.net:443")
+    conn.request("POST", "/1/messages.json",
+      urllib.parse.urlencode({
+        "token": pushover_token,
+        "user": pushover_user,
+        "message": "Bear Alert",
+      }), { "Content-type": "application/x-www-form-urlencoded" })
+    conn.getresponse()
