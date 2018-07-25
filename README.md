@@ -6,17 +6,13 @@ author: ebertrams
 
 # Custom Vision + Azure IoT Edge on a Raspberry Pi 3
 
-This is a sample showing how to deploy a Custom Vision model to a Raspberry Pi 3 device running Azure IoT Edge.  It can also be deployed on an x64 machine. It has been ported to the newer IoT Edge GA bits.
+This is a sample showing how to deploy a Custom Vision model to a Raspberry Pi 3 device running Azure IoT Edge. Custom Vision is an image classifier that is trained in the cloud with your own images. IoT Edge gives you the possibility to run this model next to your cameras, where the video data is being generated. You can thus add umeaning to your video streams to detect road traffic conditions, estimate wait lines, find parking spots, etc. while keeping your video footage private, lowering your bandwith costs and even running offline.
+
+This sample can also be deployed on an x64 machine (aka your PC). It has been ported to the newer IoT Edge GA bits.
 
 Check out this video to see this demo in action and understand how it was built:
 
 [![Custom Vision On Raspberry Pi Video](assets/CustomVisionOnRPiDemo.png)](https://www.youtube.com/watch?v=_K5fqGLO8us)
-
-This solution is made of 3 modules:
-
-- **Camera capture** - this module captures the video stream from a USB camera, sends the frames for analysis to the custom vision module and shares the output of this analysis to the edgeHub. This module is written in python and uses [OpenCV](https://opencv.org/) to read the video feed.
-- **Custom vision** - it is a web service over HTTP running locally that takes in images and classifies them based on a custom model built via the [Custom Vision website](https://azure.microsoft.com/en-us/services/cognitive-services/custom-vision-service/). This module has been exported from the Custom Vision website and slightly modified to run on a ARM architecture. You can modify it by updating the model.pb and label.txt files to update the model.
-- **SenseHat display** - this module gets messages from the edgeHub and blinks the raspberry Pi's senseHat according to the tags specified in the inputs messages. This module is written in python and requires a [SenseHat](https://www.raspberrypi.org/products/sense-hat/) to work.
 
 ## Prerequisites
 
@@ -44,11 +40,25 @@ To learn more about this development environment, check out [this tutorial](http
 
 [![Visual Studio Code Extension Video](assets/VSCodeExtensionVideo.png)](https://www.youtube.com/watch?v=C5eTQ1cwlLk&t=1s&index=35&list=PLlrxD0HtieHh5_pOv-6xsMxS3URD6XD52)
 
+
+## Description of the solution
+### Modules
+This solution is made of 3 modules:
+
+- **Camera capture** - this module captures the video stream from a USB camera, sends the frames for analysis to the custom vision module and shares the output of this analysis to the edgeHub. This module is written in python and uses [OpenCV](https://opencv.org/) to read the video feed.
+- **Custom vision** - it is a web service over HTTP running locally that takes in images and classifies them based on a custom model built via the [Custom Vision website](https://azure.microsoft.com/en-us/services/cognitive-services/custom-vision-service/). This module has been exported from the Custom Vision website and slightly modified to run on a ARM architecture. You can modify it by updating the model.pb and label.txt files to update the model.
+- **SenseHat display** - this module gets messages from the edgeHub and blinks the raspberry Pi's senseHat according to the tags specified in the inputs messages. This module is written in python and requires a [SenseHat](https://www.raspberrypi.org/products/sense-hat/) to work. The amd64 template does not include this module since it is a raspberry pi only device.
+
+### Commnucation between modules
+This is how the above three modules communicate between themselves and with the cloud:
+
+![Communication patterns between modules](assets/CommunicationPatterns.png)
+
 ## Get started
 ### On a Raspberry Pi 3
 1. Clone this sample
 2. Update the `.env` file with the values for your container registry and make sure that your docker engine has access to it
-3. Build the entire solution by right-clicking on the `deployment.template.json` file and select `Build IoT Edge Solution`
+3. Build the entire solution by right-clicking on the `deployment.template.json` file and select `Build IoT Edge Solution` (this can take a while...especially to build numpy and pillow...)
 4. Deploy the solution to your device by right-clicking on the `config/deployment.json` file, select `Create Deployment for IoT Edge device` and choose your targeted device
 5. Monitor the messages being sent to the Cloud by right-clicking on yoru device from the VS Code IoT Edge extenstion and select `Start Monitoring D2C Message` 
 
@@ -57,7 +67,7 @@ To learn more about this development environment, check out [this tutorial](http
 1. Update the `.env` file with the values for your container registry and make sure that your docker engine has access to it
 2. Rename the `deployment.template.json` file into `deployment.template.RPI.json`
 3. Rename the `deployment.template.test-amd64.json` file into `deployment.template.json`
-4. Build the entire solution by right-clicking on the `deployment.template.json` file and select `Build IoT Edge Solution`
+4. Build the entire solution by right-clicking on the `deployment.template.json` file and select `Build IoT Edge Solution` (this can take a while...especially to build numpy and pillow...)
 5. Deploy the solution to your device by right-clicking on the `config/deployment.json` file, select `Create Deployment for IoT Edge device` and choose your targeted device
 6. Monitor the messages being sent to the Cloud by right-clicking on yoru device from the VS Code IoT Edge extenstion and select `Start Monitoring D2C Message` 
 
