@@ -2,9 +2,9 @@
     "$schema-version": "0.0.1",
     "description": "",
     "image": {
-        "repository": "ebertraacr.azurecr.io/imageclassifierservice",
+        "repository": "$CONTAINER_REGISTRY_ADDRESS/imageclassifierservice",
         "tag": {
-            "version": "0.0.4",
+            "version": "0.2.0",
             "platforms": {
                 "amd64": "./amd64.Dockerfile",
                 "arm32v7": "./arm32v7.Dockerfile"

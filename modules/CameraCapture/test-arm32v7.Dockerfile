@@ -25,4 +25,4 @@ ADD /build/ .
 ADD /test/ .
 
 #Manually run the IntegrationTests.py or test other functions
-CMD ["bash"]
+ENTRYPOINT ["bash"]

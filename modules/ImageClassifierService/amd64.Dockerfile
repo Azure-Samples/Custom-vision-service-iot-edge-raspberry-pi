@@ -1,9 +1,9 @@
-FROM python
+FROM tensorflow/tensorflow:latest-py3
 
 COPY /build/amd64-requirements.txt amd64-requirements.txt
 
 RUN pip install -r amd64-requirements.txt
-
+ 
 ADD app /app
 
 # Expose the port
