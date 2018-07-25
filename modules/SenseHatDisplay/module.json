@@ -2,15 +2,15 @@
     "$schema-version": "0.0.1",
     "description": "",
     "image": {
-        "repository": "ebertraacr.azurecr.io/sensehatdisplay",
+        "repository": "$CONTAINER_REGISTRY_ADDRESS/sensehatdisplay",
         "tag": {
-            "version": "0.1.14",
+            "version": "0.2.11",
             "platforms": {
-                "amd64": "./amd64.Dockerfile",
                 "arm32v7": "./arm32v7.Dockerfile",
                 "test-arm32v7": "./test/test-arm32v7.Dockerfile"
             }
-        }
+        },
+        "buildOptions": []
     },
     "language": "python"
 }

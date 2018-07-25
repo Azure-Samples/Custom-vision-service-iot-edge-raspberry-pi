@@ -8,7 +8,7 @@ RUN [ "cross-build-start" ]
 #update list of packages available
 RUN apt-get update
 
-#Needed to use iothub_client.so. iothub_client is manually compiled until an ARM version can be installed through pip install
+#Needed by iothub_client
 RUN apt-get install -y \
         libboost-python1.55.0
 
@@ -23,4 +23,4 @@ RUN [ "cross-build-end" ]
 ADD /app/ .
 ADD /build/ . 
 
-CMD [ "python", "-u", "./main.py" ]
+ENTRYPOINT [ "python", "-u", "./main.py" ]

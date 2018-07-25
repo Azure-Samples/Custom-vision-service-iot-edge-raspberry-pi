@@ -7,7 +7,7 @@ import random
 import time
 import sys
 import iothub_client
-from iothub_client import IoTHubClient, IoTHubClientError, IoTHubTransportProvider, IoTHubClientRetryPolicy
+from iothub_client import IoTHubModuleClient, IoTHubClientError, IoTHubTransportProvider, IoTHubClientRetryPolicy
 from iothub_client import IoTHubMessage, IoTHubMessageDispositionResult, IoTHubError, DeviceMethodReturnValue
 import DisplayManager
 from DisplayManager import DisplayManager
@@ -30,13 +30,15 @@ def receive_message_callback(message, HubManager):
 
 class HubManager(object):
 
-    def __init__(self, connection_string):
+    def __init__(self):
         # Defines settings of the IoT SDK
-        self.client = IoTHubClient(connection_string, IoTHubTransportProvider.MQTT)
+        protocol = IoTHubTransportProvider.MQTT
+        self.client_protocol = protocol
+        self.client = IoTHubModuleClient()
+        self.client.create_from_environment(protocol)
         self.client.set_option("logtrace", 1)#enables MQTT logging
         self.client.set_option("messageTimeout", 10000)
-        #self.client.set_retry_policy(IoTHubClientRetryPolicy.RETRY_INTERVAL, 50)
-        self.set_certificates()
+
         # sets the callback when a message arrives on "input1" queue.  Messages sent to 
         # other inputs or to the default will be silently discarded.
         self.client.set_message_callback("input1", receive_message_callback, self)
@@ -44,22 +46,9 @@ class HubManager(object):
 
         
 
-    def set_certificates(self):
-        isWindows = sys.platform.lower() in ['windows', 'win32']
-        if not isWindows:
-            CERT_FILE = os.environ['EdgeModuleCACertificateFile']        
-            print("Adding TrustedCerts from: {0}".format(CERT_FILE))
-            # this brings in x509 privateKey and certificate
-            file = open(CERT_FILE)
-            try:
-                self.client.set_option("TrustedCerts", file.read())
-                print ( "set_option TrustedCerts successful" )
-            except IoTHubClientError as iothub_client_error:
-                print ( "set_option TrustedCerts failed (%s)" % iothub_client_error )
-            file.close()
 
 
-def main(connection_string):
+def main():
     try:
         print ( "Starting the SenseHat module...")
 
@@ -67,7 +56,7 @@ def main(connection_string):
         global MESSAGE_PARSER
         DISPLAY_MANAGER = DisplayManager()
         MESSAGE_PARSER = MessageParser()
-        hubManager = HubManager(connection_string)
+        hubManager = HubManager()
 
         while True:
             time.sleep(1000)
@@ -80,7 +69,6 @@ def main(connection_string):
 
 if __name__ == '__main__':
     try:
-        CONNECTION_STRING = os.environ['EdgeHubConnectionString']
         global THRESHOLD
         THRESHOLD = float(os.getenv('THRESHOLD', 0))
 
@@ -88,4 +76,4 @@ if __name__ == '__main__':
         print ( error )
         sys.exit(1)
 
-    main(CONNECTION_STRING)
+    main()
