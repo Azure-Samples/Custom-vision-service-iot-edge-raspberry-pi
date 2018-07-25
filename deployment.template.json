@@ -67,7 +67,7 @@
             "status": "running",
             "restartPolicy": "always",
             "settings": {
-              "image": "${MODULES.ImageClassifierService.arm32v7}",
+              "image": "${MODULES.ImageClassifierService-BEARS.arm32v7}",
               "createOptions": ""
             }
           }
