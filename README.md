@@ -10,7 +10,7 @@ This is a sample showing how to deploy a Custom Vision model to a Raspberry Pi 3
 
 This sample can also be deployed on an x64 machine (aka your PC). It has been ported to the newer IoT Edge GA bits.
 
-Check out this video to see this demo in action and understand how it was built:
+Check out [this video](https://www.youtube.com/watch?v=_K5fqGLO8us) to see this demo in action and understand how it was built:
 
 [![Custom Vision On Raspberry Pi Video](assets/CustomVisionOnRPiDemo.png)](https://www.youtube.com/watch?v=_K5fqGLO8us)
 
@@ -36,7 +36,7 @@ You need the following dev tools to do IoT Edge development in general, to make 
 - **Visual Studio Code**: IoT Edge development environment. [Download it from here](https://code.visualstudio.com/).
 - **Visual Studio Code: Azure IoT Edge Extension**: An extension that connects to your IoT Hub and lets you manage your IoT Devices and IoT Edge Devices right from VS Code. A must-have for IoT Edge development. [Download it from here](https://marketplace.visualstudio.com/items?itemName=vsciot-vscode.azure-iot-edge). Once installed, connect it to your IoT Hub.
 
-To learn more about this development environment, check out [this tutorial](https://docs.microsoft.com/en-us/azure/iot-edge/how-to-deploy-modules-vscode) and this video:
+To learn more about this development environment, check out [this tutorial](https://docs.microsoft.com/en-us/azure/iot-edge/how-to-deploy-modules-vscode) and [this video](https://www.youtube.com/watch?v=C5eTQ1cwlLk&t=1s&index=35&list=PLlrxD0HtieHh5_pOv-6xsMxS3URD6XD52):
 
 [![Visual Studio Code Extension Video](assets/VSCodeExtensionVideo.png)](https://www.youtube.com/watch?v=C5eTQ1cwlLk&t=1s&index=35&list=PLlrxD0HtieHh5_pOv-6xsMxS3URD6XD52)
 
