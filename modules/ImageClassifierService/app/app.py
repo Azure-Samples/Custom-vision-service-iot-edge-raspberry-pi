@@ -30,6 +30,8 @@ app.config['MAX_CONTENT_LENGTH'] = 4 * 1024 * 1024
 def index():
     return 'CustomVision.ai model host harness'
 
+notification_sent = False
+
 # Like the CustomVision.ai Prediction service /image route handles either
 #     - octet-stream image file 
 #     - a multipart/form-data with files in the imageData parameter
@@ -51,8 +53,17 @@ def predict_image_handler():
 
         # cloud model
         if highestProb < 0.6:
-            results = analyze_image_external(img)
-            print(results)
+            cloudResult = analyze_image_external(img)
+
+            if "tags" in cloudResult:
+                tags = cloudResult["tags"]
+                print(tags)
+
+                if "bear" in tags and notification_sent == False:
+                    push_notification()
+        else:
+            if notification_sent == False:
+                push_notification()
 
         return json.dumps(results)
     except Exception as e:
