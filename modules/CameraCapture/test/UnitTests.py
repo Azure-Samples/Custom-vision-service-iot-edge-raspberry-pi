@@ -2,6 +2,7 @@ import unittest
 import json
 import sys
 sys.path.insert(0, '../')
+# pylint: disable=E0401
 import app.AnnotationParser
 
 class UnitTests(unittest.TestCase):
