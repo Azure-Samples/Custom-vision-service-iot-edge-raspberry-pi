@@ -53,18 +53,6 @@ RUN  OPENCV_VERSION=3.4.2 \
     .. \
   && make \
   && sudo make install \
-  # verify the installation is successful
-  && python -c "import cv2; print('Installed OpenCV version is: {} :)'.format(cv2.__version__))" \
-  && if [ $? -eq 0 ]; then \
-      echo "OpenCV installed successfully! ........................."; \
-  else \
-      echo "OpenCV installation failed :( ........................." \
-      && SITE_PACKAGES_DIR=/usr/local/lib/python2.7/site-packages \
-      && echo "$SITE_PACKAGES_DIR contents: " \
-      && echo `ls -ltrh $SITE_PACKAGES_DIR` \
-      && echo "Note: temporary installation dir $WS_DIR/opencv is not removed!" \
-      && exit 1; \
-  fi \
   # cleanup
   && cd $WS_DIR \
   && sudo rm -rf opencv
