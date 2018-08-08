@@ -21,8 +21,8 @@ import VideoStream
 from VideoStream import VideoStream
 import AnnotationParser
 from AnnotationParser import AnnotationParser
-
-
+import ImageServer
+from ImageServer import ImageServer
 
 class CameraCapture(object):
 
@@ -87,6 +87,10 @@ class CameraCapture(object):
             print("   - Annotate: " + str(self.annotate))
             print("   - Send processing results to hub: " + str(self.sendToHubCallback is not None))
             print()
+        
+        if self.showVideo:
+            self.imageServer = ImageServer('localhost', 5000)
+            self.imageServer.start()
 
     def __annotate(self, frame, response):
         AnnotationParserInstance = AnnotationParser()
@@ -207,16 +211,21 @@ class CameraCapture(object):
                         if self.annotate:
                             #TODO: fix bug with annotate function
                             self.__annotate(frame, response)
-                        cv2.imshow('frame', frame)
+                        #cv2.imshow('frame', frame)
+                        cnt = cv2.imencode('.png',frame)[1]
+                        self.imageServer.broadcast(cnt.tobytes())
                     else:
                         if self.verbose and (perfForOneFrameInMs is not None):
                             cv2.putText(preprocessedFrame, "FPS " + str(round(1000/perfForOneFrameInMs, 2)),(10, 35),cv2.FONT_HERSHEY_SIMPLEX,1.0,(0,0,255), 2)
                         if self.annotate:
                             #TODO: fix bug with annotate function
                             self.__annotate(preprocessedFrame, response)
-                        cv2.imshow('frame', preprocessedFrame)
-                except Exception:
+                        #cv2.imshow('frame', preprocessedFrame)
+                        cnt = cv2.imencode('.png',frame)[1]
+                        self.imageServer.broadcast(cnt)
+                except Exception as e:
                     print("Could not display the video to an X server. Fix the X server or turn off showing video.") 
+                    print('Excpetion -' + str(e))
                 if self.verbose:
                     if 'startDisplaying' in locals():
                         print("Time to display frame: " + self.__displayTimeDifferenceInMs(time.time(), startDisplaying))
@@ -239,4 +248,5 @@ class CameraCapture(object):
         if not self.isWebcam:
             self.capture.release()
         if self.showVideo:
+            self.imageServer.close()
             cv2.destroyAllWindows()
