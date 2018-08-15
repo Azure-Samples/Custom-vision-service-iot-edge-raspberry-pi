@@ -1,5 +1,7 @@
 FROM resin/rpi-raspbian:stretch
 
+RUN [ "cross-build-start" ]
+
 # Install dependencies
 RUN apt-get update &&  apt-get install -y \
         python3 \
@@ -26,6 +28,8 @@ EXPOSE 80
 
 # Set the working directory
 WORKDIR /app
+
+RUN [ "cross-build-end" ]
 
 # Run the flask server for the endpoints
 CMD ["python3","app.py"]
