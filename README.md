@@ -19,7 +19,7 @@ Check out [this video](https://www.youtube.com/watch?v=_K5fqGLO8us) to see this 
 ### Hardware
 You can run this solution on either of the following hardware:
 
-- **Raspberry Pi 3**: Set up Azure IoT Edge on a Raspberry Pi 3 ([instructions to set up the hardware](https://blog.jongallant.com/2017/11/raspberrypi-setup/) + [instructions to install Azure IoT Edge](https://docs.microsoft.com/en-us/azure/iot-edge/how-to-install-iot-edge-linux-arm)) with a [SenseHat](https://www.raspberrypi.org/products/sense-hat/) and use the arm32v7 tags.
+- **Raspberry Pi 3**: Set up Azure IoT Edge on a Raspberry Pi 3 ([instructions to set up the hardware - use raspbian 9 (stretch) or above)](https://blog.jongallant.com/2017/11/raspberrypi-setup/) + [instructions to install Azure IoT Edge](https://docs.microsoft.com/en-us/azure/iot-edge/how-to-install-iot-edge-linux-arm)) with a [SenseHat](https://www.raspberrypi.org/products/sense-hat/) and use the arm32v7 tags.
 
 - **Simulated Azure IoT Edge device** (such as a PC): Set up Azure IoT Edge ([instructions on Windows](https://docs.microsoft.com/en-us/azure/iot-edge/how-to-install-iot-edge-windows-with-linux), [instructions on Linux](https://docs.microsoft.com/en-us/azure/iot-edge/how-to-install-iot-edge-linux)) and use the amd64 tags. A test x64 deployment manifest is already available. To use it, rename the `deployment.template.test-amd64` to `deployment.template.json`, then build the IoT Edge solution from this manifest and deploy it to an x64 device.
  
@@ -58,7 +58,7 @@ This is how the above three modules communicate between themselves and with the 
 ### On a Raspberry Pi 3
 1. Clone this sample
 2. Update the `.env` file with the values for your container registry and make sure that your docker engine has access to it
-3. Build the entire solution by right-clicking on the `deployment.template.json` file and select `Build IoT Edge Solution` (this can take a while...especially to build numpy and pillow...)
+3. Build the entire solution by right-clicking on the `deployment.template.json` file and select `Build IoT Edge Solution` (this can take a while...especially to build open-cv, numpy and pillow...)
 4. Deploy the solution to your device by right-clicking on the `config/deployment.json` file, select `Create Deployment for IoT Edge device` and choose your targeted device
 5. Monitor the messages being sent to the Cloud by right-clicking on yoru device from the VS Code IoT Edge extenstion and select `Start Monitoring D2C Message` 
 

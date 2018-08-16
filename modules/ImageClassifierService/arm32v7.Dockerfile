@@ -1,4 +1,6 @@
-FROM resin/rpi-raspbian:jessie
+FROM resin/rpi-raspbian:stretch
+
+RUN [ "cross-build-start" ]
 
 # Install dependencies
 RUN apt-get update &&  apt-get install -y \
@@ -6,18 +8,18 @@ RUN apt-get update &&  apt-get install -y \
         python3-pip \
         build-essential \
         python3-dev \
+        libopenjp2-7-dev \
+        libtiff5-dev \
         zlib1g-dev \
         libjpeg-dev \
+        libatlas-base-dev \
         wget
 
 COPY /build/arm32v7-requirements.txt arm32v7-requirements.txt
 
 RUN pip3 install --upgrade pip 
-RUN pip install --upgrade setuptools 
-RUN pip install -r arm32v7-requirements.txt
-
-#TensorFlow 1.5.0
-RUN pip install http://ci.tensorflow.org/view/Nightly/job/nightly-pi-python3/122/artifact/output-artifacts/tensorflow-1.5.0-cp34-none-any.whl
+RUN pip3 install --upgrade setuptools 
+RUN pip3 install -r arm32v7-requirements.txt
 
 ADD app /app
 
@@ -26,6 +28,8 @@ EXPOSE 80
 
 # Set the working directory
 WORKDIR /app
+
+RUN [ "cross-build-end" ]
 
 # Run the flask server for the endpoints
 CMD ["python3","app.py"]
