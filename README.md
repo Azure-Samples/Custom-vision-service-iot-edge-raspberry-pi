@@ -55,14 +55,16 @@ This is how the above three modules communicate between themselves and with the 
 ![Communication patterns between modules](assets/CommunicationPatterns.png)
 
 ## Get started
-### On a Raspberry Pi 3
+### To deploy the solution on a Raspberry Pi 3
+From your mac or PC:
 1. Clone this sample
 2. Update the `.env` file with the values for your container registry and make sure that your docker engine has access to it
 3. Build the entire solution by right-clicking on the `deployment.template.json` file and select `Build IoT Edge Solution` (this can take a while...especially to build open-cv, numpy and pillow...)
 4. Deploy the solution to your device by right-clicking on the `config/deployment.json` file, select `Create Deployment for IoT Edge device` and choose your targeted device
 5. Monitor the messages being sent to the Cloud by right-clicking on yoru device from the VS Code IoT Edge extenstion and select `Start Monitoring D2C Message` 
 
-### On an x64 PC
+### To deploy the solution on an x64 PC
+From your mac or PC:
 1. Clone this sample
 1. Update the `.env` file with the values for your container registry and make sure that your docker engine has access to it
 2. Rename the `deployment.template.json` file into `deployment.template.RPI.json`
