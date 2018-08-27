@@ -120,13 +120,13 @@ class DisplayManager(object):
         print("Displaying " + strImage)
         if 'apple' in strImage.lower():
             self.__displayImage(self.__apple())
-        elif 'rasp' in strImage.lower():
+        elif 'raspberry' in strImage.lower():
             self.__displayImage(self.__raspberry())
         elif 'banana' in strImage.lower():
             self.__displayImage(self.__banana())
         elif 'orange' in strImage.lower():
             self.__displayImage(self.__orange())
-        elif 'orange' in strImage.lower():
+        elif 'lemon' in strImage.lower():
             self.__displayImage(self.__lemon())
         elif 'none' in strImage.lower():
             self.s.clear()
