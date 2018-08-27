@@ -5,10 +5,7 @@ FROM resin/raspberrypi3-python:2.7
 RUN [ "cross-build-start" ]
 
 #update list of packages available
-RUN apt-get update
-
-#Needed by iothub_client
-RUN apt-get install -y libboost-python1.55.0
+RUN apt-get update && apt-get install -y libboost-python1.55.0
 
 #Install python packages        
 COPY /build/arm32v7-requirements.txt ./
@@ -61,6 +58,9 @@ RUN [ "cross-build-end" ]
 
 ADD /app/ .
 ADD /build/ . 
-ADD /test/ . 
+ADD /test/ .
+
+# Expose the port
+EXPOSE 5012
 
 ENTRYPOINT [ "bash" ]

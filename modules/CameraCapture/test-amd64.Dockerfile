@@ -16,6 +16,8 @@ RUN apt-get update && \
 ADD /app/ .
 ADD /test/ .
 
+# Expose the port
+EXPOSE 5012
 
 #Manually run the main.py or test other functions
 #ENTRYPOINT ["bash"]

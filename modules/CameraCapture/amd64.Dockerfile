@@ -15,4 +15,7 @@ RUN apt-get update && \
 
 ADD /app/ .
 
+# Expose the port
+EXPOSE 5012
+
 ENTRYPOINT [ "python", "-u", "./main.py" ]

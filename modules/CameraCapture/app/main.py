@@ -21,7 +21,6 @@ from CameraCapture import CameraCapture
 # global counters
 SEND_CALLBACKS = 0
 
-
 def send_to_Hub_callback(strMessage):
     message = IoTHubMessage(bytearray(strMessage, 'utf8'))
     hubManager.send_event_to_output("output1", message, 0)

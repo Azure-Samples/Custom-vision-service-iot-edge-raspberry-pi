@@ -1,86 +1,47 @@
-import socket
-import sys
-import threading
+# Imports for the REST API
+from flask import Flask, Response, render_template
 import time
 import base64
+import threading
 
-class ImageServerConnection():
-    def __init__(self, ipAddr, connection):
-        self.connection = connection
-        self.ip = ipAddr
-        self.data = []
-
-    def recv(self):
-        self.data = []
-        while True:
-            temp = self.connection.recv(2048)
-            if temp :
-                self.data.append(temp)
-            else:
-                break
-        return self.data
-    
-    def send(self, payload):
-        try:
-            self.connection.sendall(payload)
-        except Exception as e:
-            print('ImageServerConnection(' + str(self.ip) + ')::Excpetion on Send -' + str(e))
-    
-    def close(self):
-        self.connection.close()
-        print ('ImageServerConnection(' + str(self.ip) + ')::Closed.')
+IMAGE_SERVER_ALIVE = True
 
 class ImageServer(threading.Thread):
     def __init__(self, ipAddr, port):
         threading.Thread.__init__(self)
+        self.setDaemon(True)
         self.ipAddr = ipAddr
         self.port = port
-        self.socket = None
-        self.clients = []
+        self.current_frame = None
+        self.app = Flask(__name__)
 
     def run(self):
-        self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        print('ImageServer::Socket created.')
-
-        self.socket.bind((self.ipAddr, self.port))
-        print('ImageServer::Socket bind complete.')
-
-        self.socket.listen(10)
-        print('ImageServer::Socket now listening.')
-
         try:
-            while True :
-                conn, ipAddr = self.socket.accept()
-                client = ImageServerConnection(ipAddr, conn)
-                self.clients.append(client)
-                print ('ImageServer::client connected - ' + str(client.ip))
-                self.recv_from_clients()
-        except:
-            print('ImageServer::exited run loop.')
+            @self.app.route('/')
+            def index():
+                return render_template('index.html')
 
-    def recv_from_clients(self):
-        for client in self.clients :
-            data = client.recv()
-            if data:
-                print ('ImageServer::data received from ' + str(client.ip))
-                print (str(data))
+            @self.app.route('/video_feed')
+            def video_feed():
+                return Response(self.gen(),mimetype='multipart/x-mixed-replace; boundary=frame')
 
-    def broadcast(self, frame):
-        try:
-            if len(self.clients) > 0:
-                print ('ImageServer::brocasting...')
-                b64 = base64.encodestring(frame)
-                payload = "<html><img src='data:image/png;base64,"+ b64 +"'></html>"
-                print(payload)
-                for client in self.clients :
-                    client.send(payload)
-                print ('ImageServer::brocasting completed.')
+            self.app.run(host=self.ipAddr, port=self.port)
         except Exception as e:
-            print('ImageServer::Exception on broadcast -' + str(e))
+            print('ImageServer::exited run loop. Exception - '+ str(e))
+
+    def gen(self):
+        while IMAGE_SERVER_ALIVE:
+            frame = self.current_frame
+            yield (b'--frame\r\n'
+                   b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+
+    def update_frame(self, frame):
+        try:
+            self.current_frame = frame
+        except Exception as e:
+            print('ImageServer::update_frame Exception - ' + str(e))
 
     def close(self):
-        print ('ImageServer::Closing...')
-        for client in self.clients:
-            client.close()
-        self.socket.close()
+        global IMAGE_SERVER_ALIVE
+        IMAGE_SERVER_ALIVE = False
         print ('ImageServer::Closed.')

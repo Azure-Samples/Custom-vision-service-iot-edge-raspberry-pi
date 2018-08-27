@@ -89,7 +89,7 @@ class CameraCapture(object):
             print()
         
         if self.showVideo:
-            self.imageServer = ImageServer('localhost', 5000)
+            self.imageServer = ImageServer('0.0.0.0', 5012)
             self.imageServer.start()
 
     def __annotate(self, frame, response):
@@ -211,20 +211,18 @@ class CameraCapture(object):
                         if self.annotate:
                             #TODO: fix bug with annotate function
                             self.__annotate(frame, response)
-                        #cv2.imshow('frame', frame)
-                        cnt = cv2.imencode('.png',frame)[1]
-                        self.imageServer.broadcast(cnt.tobytes())
+                        encodedFrame = cv2.imencode('.jpg', frame)[1].tobytes()
+                        self.imageServer.update_frame(encodedFrame)
                     else:
                         if self.verbose and (perfForOneFrameInMs is not None):
                             cv2.putText(preprocessedFrame, "FPS " + str(round(1000/perfForOneFrameInMs, 2)),(10, 35),cv2.FONT_HERSHEY_SIMPLEX,1.0,(0,0,255), 2)
                         if self.annotate:
                             #TODO: fix bug with annotate function
                             self.__annotate(preprocessedFrame, response)
-                        #cv2.imshow('frame', preprocessedFrame)
-                        cnt = cv2.imencode('.png',frame)[1]
-                        self.imageServer.broadcast(cnt)
+                        encodedFrame = cv2.imencode('.jpg', preprocessedFrame)[1].tobytes()
+                        self.imageServer.update_frame(encodedFrame)
                 except Exception as e:
-                    print("Could not display the video to an X server. Fix the X server or turn off showing video.") 
+                    print("Could not display the video to a web browser.") 
                     print('Excpetion -' + str(e))
                 if self.verbose:
                     if 'startDisplaying' in locals():
