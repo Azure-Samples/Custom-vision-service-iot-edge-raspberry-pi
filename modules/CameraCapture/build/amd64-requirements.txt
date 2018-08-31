@@ -1,5 +1,4 @@
 azure-iothub-device-client==1.4.0
 numpy
 opencv-python
-flask
 requests

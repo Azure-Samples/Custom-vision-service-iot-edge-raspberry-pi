@@ -9,7 +9,7 @@ RUN apt-get update && apt-get install -y libboost-python1.55.0
 
 #Install python packages        
 COPY /build/arm32v7-requirements.txt ./
-RUN pip install --upgrade pip  && pip install --upgrade setuptools && pip install -r arm32v7-requirements.txt
+RUN pip install --upgrade pip && pip install --upgrade setuptools && pip install -r arm32v7-requirements.txt
 
 # Install build modules for openCV
 # Based on the work at https://github.com/mohaseeb/raspberrypi3-opencv-docker
@@ -54,10 +54,11 @@ RUN  OPENCV_VERSION=3.4.2 \
   && cd $WS_DIR \
   && sudo rm -rf opencv
 
+RUN pip install trollius tornado
+
 RUN [ "cross-build-end" ]  
 
 ADD /app/ .
-ADD /build/ .
 
 # Expose the port
 EXPOSE 5012

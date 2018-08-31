@@ -1,47 +1,57 @@
-# Imports for the REST API
-from flask import Flask, Response, render_template
-import time
-import base64
+# Base on work from https://github.com/Bronkoknorb/PyImageStream
+import trollius as asyncio
+import tornado.ioloop
+import tornado.web
+import tornado.websocket
 import threading
+import base64
+import os
 
-IMAGE_SERVER_ALIVE = True
+class ImageStreamHandler(tornado.websocket.WebSocketHandler):
+    def initialize(self, camera):
+        self.clients = []
+        self.camera = camera
+
+    def check_origin(self, origin):
+        return True
+
+    def open(self):
+        self.clients.append(self)
+        print("Image Server Connection::opened")
+
+    def on_message(self, msg):
+        if msg == 'next':
+            frame = self.camera.get_display_frame()
+            if frame != None:
+                encoded = base64.b64encode(frame)
+                self.write_message(encoded, binary=False)
+
+    def on_close(self):
+        self.clients.remove(self)
+        print("Image Server Connection::closed")
 
 class ImageServer(threading.Thread):
-    def __init__(self, ipAddr, port):
+
+    def __init__(self, port, cameraObj):
         threading.Thread.__init__(self)
         self.setDaemon(True)
-        self.ipAddr = ipAddr
         self.port = port
-        self.current_frame = None
-        self.app = Flask(__name__)
+        self.camera = cameraObj
 
     def run(self):
         try:
-            @self.app.route('/')
-            def index():
-                return render_template('index.html')
+            asyncio.set_event_loop(asyncio.new_event_loop())
 
-            @self.app.route('/video_feed')
-            def video_feed():
-                return Response(self.gen(),mimetype='multipart/x-mixed-replace; boundary=frame')
-
-            self.app.run(host=self.ipAddr, port=self.port)
+            indexPath = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'templates')
+            app = tornado.web.Application([
+                (r"/stream", ImageStreamHandler, {'camera': self.camera}),
+                (r"/(.*)", tornado.web.StaticFileHandler, {'path': indexPath, 'default_filename': 'index.html'})
+            ])
+            app.listen(self.port)
+            print ('ImageServer::Started.')
+            tornado.ioloop.IOLoop.current().start()
         except Exception as e:
             print('ImageServer::exited run loop. Exception - '+ str(e))
 
-    def gen(self):
-        while IMAGE_SERVER_ALIVE:
-            frame = self.current_frame
-            yield (b'--frame\r\n'
-                   b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
-
-    def update_frame(self, frame):
-        try:
-            self.current_frame = frame
-        except Exception as e:
-            print('ImageServer::update_frame Exception - ' + str(e))
-
     def close(self):
-        global IMAGE_SERVER_ALIVE
-        IMAGE_SERVER_ALIVE = False
         print ('ImageServer::Closed.')

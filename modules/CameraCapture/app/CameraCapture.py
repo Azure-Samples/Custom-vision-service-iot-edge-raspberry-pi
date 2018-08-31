@@ -88,8 +88,9 @@ class CameraCapture(object):
             print("   - Send processing results to hub: " + str(self.sendToHubCallback is not None))
             print()
         
+        self.displayFrame = None
         if self.showVideo:
-            self.imageServer = ImageServer('0.0.0.0', 5012)
+            self.imageServer = ImageServer(5012, self)
             self.imageServer.start()
 
     def __annotate(self, frame, response):
@@ -123,6 +124,9 @@ class CameraCapture(object):
             #In the case of a video file, we want to analyze all the frames fo the video thus are not using VideoStream class
             self.capture = cv2.VideoCapture(self.videoPath)
         return self
+
+    def get_display_frame(self):
+        return self.displayFrame
 
     def start(self):
         frameCounter = 0
@@ -211,16 +215,14 @@ class CameraCapture(object):
                         if self.annotate:
                             #TODO: fix bug with annotate function
                             self.__annotate(frame, response)
-                        encodedFrame = cv2.imencode('.jpg', frame)[1].tobytes()
-                        self.imageServer.update_frame(encodedFrame)
+                        self.displayFrame = cv2.imencode('.jpg', frame)[1].tobytes()
                     else:
                         if self.verbose and (perfForOneFrameInMs is not None):
                             cv2.putText(preprocessedFrame, "FPS " + str(round(1000/perfForOneFrameInMs, 2)),(10, 35),cv2.FONT_HERSHEY_SIMPLEX,1.0,(0,0,255), 2)
                         if self.annotate:
                             #TODO: fix bug with annotate function
                             self.__annotate(preprocessedFrame, response)
-                        encodedFrame = cv2.imencode('.jpg', preprocessedFrame)[1].tobytes()
-                        self.imageServer.update_frame(encodedFrame)
+                        self.displayFrame = cv2.imencode('.jpg', preprocessedFrame)[1].tobytes()
                 except Exception as e:
                     print("Could not display the video to a web browser.") 
                     print('Excpetion -' + str(e))
