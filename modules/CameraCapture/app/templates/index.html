@@ -1,0 +1,27 @@
+<html>
+  <head>
+    <title>Video Stream</title>
+  </head>
+  <body>
+    <h1>Video Stream</h1>
+    <img id="currentImage" style="border:2px solid teal">
+    <script>
+
+      var img = document.getElementById("currentImage");
+      var ws = new WebSocket("ws://localhost:5012/stream");
+
+      ws.onopen = function() {
+          console.log("connection was established");
+          ws.send("next");
+      };
+
+      ws.onmessage = function(msg) {
+          img.src = 'data:image/png;base64, ' + msg.data;
+      };
+
+      img.onload = function() {
+        ws.send("next");
+      }
+    </script>
+  </body>
+</html>

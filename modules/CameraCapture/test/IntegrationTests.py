@@ -24,6 +24,11 @@ try:
     with CameraCapture("1", verbose=True, loopVideo=False) as cameraCapture:
         cameraCapture.start()
         print("Test #4 completed")
+    
+    print("Test #5 - video0 device - showvideo = True")
+    with CameraCapture("../test/AppleAndBanana.mp4", showVideo=True, loopVideo=True, resizeHeight=256, resizeWidth=256) as cameraCapture:
+        cameraCapture.start()
+        print("Test #5 completed")
 
 except Exception as exception:
     print ( "Error while executing camera Capture tests: (%s)" % exception)
