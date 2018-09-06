@@ -332,3 +332,4 @@ ASALocalRun/
 .env
 config/deployment.json
 config/deployment.json
+.env
