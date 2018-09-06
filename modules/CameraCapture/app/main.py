@@ -49,6 +49,7 @@ class HubManager(object):
         self.client = IoTHubModuleClient()
         self.client.create_from_environment(protocol)
         self.client.set_option("messageTimeout", self.messageTimeout)
+        self.client.set_option("product_info","edge-camera-capture")
         if verbose:
             self.client.set_option("logtrace", 1)#enables MQTT logging
 
