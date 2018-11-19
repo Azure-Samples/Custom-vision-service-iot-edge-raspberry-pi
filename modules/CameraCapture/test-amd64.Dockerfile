@@ -23,4 +23,4 @@ ADD /test/ .
 EXPOSE 5012
 
 #Manually run the main.py or test other functions
-ENTRYPOINT ["bash"]
+ENTRYPOINT [ "python", "-u", "./main.py" ]

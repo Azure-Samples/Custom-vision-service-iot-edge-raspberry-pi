@@ -64,4 +64,4 @@ ADD /test/ .
 # Expose the port
 EXPOSE 5012
 
-ENTRYPOINT [ "bash" ]
+ENTRYPOINT [ "python", "-u", "./main.py" ]
