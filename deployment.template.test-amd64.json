@@ -42,7 +42,7 @@
             "status": "running",
             "restartPolicy": "always",
             "settings": {
-              "image": "${MODULES.CameraCapture.amd64}",
+              "image": "${MODULES.CameraCapture.test-amd64}",
               "createOptions": "{\"Env\":[\"VIDEO_PATH=./AppleAndBanana.mp4\",\"IMAGE_PROCESSING_ENDPOINT=http://image-classifier-service:80/image\", \"VERBOSE=TRUE\", \"RESIZE_WIDTH=256\", \"RESIZE_HEIGHT=256\", \"SHOW_VIDEO=TRUE\"], \"HostConfig\":{\"PortBindings\":{\"5012/tcp\":[{\"HostPort\":\"5012\"}]}}}"
             }
           },
