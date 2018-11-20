@@ -48,7 +48,22 @@
             "restartPolicy": "always",
             "settings": {
               "image": "${MODULES.CameraCapture.arm32v7}",
-              "createOptions": "{\"Env\":[\"VIDEO_PATH=0\",\"IMAGE_PROCESSING_ENDPOINT=http://image-classifier-service:80/image\", \"VERBOSE=TRUE\", \"RESIZE_WIDTH=256\", \"RESIZE_HEIGHT=256\", \"SHOW_VIDEO=TRUE\"], \"HostConfig\":{\"PortBindings\":{\"5012/tcp\":[{\"HostPort\":\"5012\"}]},\"Binds\":[\"/dev/video0:/dev/video0\"],\"Devices\":[{\"PathOnHost\":\"/dev/video0\",\"PathInContainer\":\"/dev/video0\",\"CgroupPermissions\":\"mrw\"}]}}"
+              "environment": {
+                "VIDEO_PATH": 0,
+                "IMAGE_PROCESSING_ENDPOINT": "http://image-classifier-service:80/image",
+                "RESIZE_WIDTH": 256,
+                "RESIZE_HEIGHT": 256,
+                "SHOW_VIDEO": true
+              },
+              "createOptions": {
+                "HostConfig": {
+                  "PortBindings": {
+                    "5012/tcp": [ { "HostPort":"5012"}]
+                  },
+                  "Binds": ["/dev/video0:/dev/video0"],
+                  "Devices":[{"PathOnHost":"/dev/video0","PathInContainer":"/dev/video0","CgroupPermissions":"mrw"}]
+                }
+              }
             }
           },
           "sensehat-display": {
@@ -58,7 +73,15 @@
             "restartPolicy": "always",
             "settings": {
               "image": "${MODULES.SenseHatDisplay.arm32v7}",
-              "createOptions": "{\"Env\":[\"THRESHOLD=0.6\"], \"HostConfig\":{\"Binds\":[\"/dev/i2c1:/dev/i2c1\"],\"Privileged\":true}}"
+              "environment": {
+                "THRESHOLD": 0.6
+              },
+              "createOptions": {
+                "HostConfig":{
+                  "Binds":["/dev/i2c1:/dev/i2c1"],
+                  "Privileged":true
+                }
+              }
             }
           },
           "image-classifier-service": {
