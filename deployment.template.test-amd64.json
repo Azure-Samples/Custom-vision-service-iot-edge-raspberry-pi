@@ -41,16 +41,16 @@
             "type": "docker",
             "status": "running",
             "restartPolicy": "always",
+            "env": {
+              "VIDEO_PATH": { "value": "./AppleAndBanana.mp4"},
+              "IMAGE_PROCESSING_ENDPOINT": { "value": "http://image-classifier-service:80/image"},
+              "VERBOSE": { "value": true},
+              "RESIZE_WIDTH": { "value": 256},
+              "RESIZE_HEIGHT": { "value": 256},
+              "SHOW_VIDEO": { "value": true}
+            },
             "settings": {
               "image": "${MODULES.CameraCapture.test-amd64}",
-              "environment": {
-                "VIDEO_PATH": "./AppleAndBanana.mp4",
-                "IMAGE_PROCESSING_ENDPOINT": "http://image-classifier-service:80/image",
-                "VERBOSE": true,
-                "RESIZE_WIDTH": 256,
-                "RESIZE_HEIGHT": 256,
-                "SHOW_VIDEO": true
-              },
               "createOptions": {
                 "HostConfig": {
                   "PortBindings": {
