@@ -44,10 +44,10 @@
             "env": {
               "VIDEO_PATH": { "value": "./AppleAndBanana.mp4"},
               "IMAGE_PROCESSING_ENDPOINT": { "value": "http://image-classifier-service:80/image"},
-              "VERBOSE": { "value": true},
+              "VERBOSE": { "value": "True"},
               "RESIZE_WIDTH": { "value": 256},
               "RESIZE_HEIGHT": { "value": 256},
-              "SHOW_VIDEO": { "value": true}
+              "SHOW_VIDEO": { "value": "True"}
             },
             "settings": {
               "image": "${MODULES.CameraCapture.test-amd64}",

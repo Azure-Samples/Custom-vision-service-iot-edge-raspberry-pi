@@ -51,7 +51,7 @@
               "IMAGE_PROCESSING_ENDPOINT":  {"value": "http://image-classifier-service:80/image"},
               "RESIZE_WIDTH":  {"value": 256},
               "RESIZE_HEIGHT":  {"value": 256},
-              "SHOW_VIDEO":  {"value": true}
+              "SHOW_VIDEO":  {"value": "True"}
             },
             "settings": {
               "image": "${MODULES.CameraCapture.arm32v7}",
@@ -90,7 +90,7 @@
             "status": "running",
             "restartPolicy": "always",
             "settings": {
-              "image": "${MODULES.ImageClassifierService}",
+              "image": "${MODULES.ImageClassifierService.arm32v7}",
               "createOptions": ""
             }
           }
