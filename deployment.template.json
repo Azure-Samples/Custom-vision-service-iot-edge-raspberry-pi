@@ -46,15 +46,15 @@
             "type": "docker",
             "status": "running",
             "restartPolicy": "always",
+            "env": {
+              "VIDEO_PATH": {"value": 0},
+              "IMAGE_PROCESSING_ENDPOINT":  {"value": "http://image-classifier-service:80/image"},
+              "RESIZE_WIDTH":  {"value": 256},
+              "RESIZE_HEIGHT":  {"value": 256},
+              "SHOW_VIDEO":  {"value": true}
+            },
             "settings": {
               "image": "${MODULES.CameraCapture.arm32v7}",
-              "environment": {
-                "VIDEO_PATH": 0,
-                "IMAGE_PROCESSING_ENDPOINT": "http://image-classifier-service:80/image",
-                "RESIZE_WIDTH": 256,
-                "RESIZE_HEIGHT": 256,
-                "SHOW_VIDEO": true
-              },
               "createOptions": {
                 "HostConfig": {
                   "PortBindings": {
@@ -75,7 +75,7 @@
               "THRESHOLD": {"value": 0.6}
             },
             "settings": {
-              "image": "${MODULES.SenseHatDisplay.arm32v7}",
+              "image": "${MODULES.SenseHatDisplay}",
               "createOptions": {
                 "HostConfig":{
                   "Binds":["/dev/i2c1:/dev/i2c1"],
@@ -90,7 +90,7 @@
             "status": "running",
             "restartPolicy": "always",
             "settings": {
-              "image": "${MODULES.ImageClassifierService.arm32v7}",
+              "image": "${MODULES.ImageClassifierService}",
               "createOptions": ""
             }
           }
