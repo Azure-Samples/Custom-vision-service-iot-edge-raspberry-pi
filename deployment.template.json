@@ -75,7 +75,7 @@
               "THRESHOLD": {"value": 0.6}
             },
             "settings": {
-              "image": "${MODULES.SenseHatDisplay}",
+              "image": "${MODULES.SenseHatDisplay.arm32v7}",
               "createOptions": {
                 "HostConfig":{
                   "Binds":["/dev/i2c1:/dev/i2c1"],
