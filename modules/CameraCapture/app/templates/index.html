@@ -8,7 +8,7 @@
     <script>
 
       var img = document.getElementById("currentImage");
-      var ws = new WebSocket("ws://localhost:5012/stream");
+      var ws = new WebSocket("ws://" + location.host + "/stream");
 
       ws.onopen = function() {
           console.log("connection was established");
