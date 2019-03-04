@@ -47,10 +47,10 @@
             "status": "running",
             "restartPolicy": "always",
             "env": {
-              "VIDEO_PATH": {"value": 0},
+              "VIDEO_PATH": {"value": "0"},
               "IMAGE_PROCESSING_ENDPOINT":  {"value": "http://image-classifier-service:80/image"},
-              "RESIZE_WIDTH":  {"value": 256},
-              "RESIZE_HEIGHT":  {"value": 256},
+              "RESIZE_WIDTH":  {"value": "256"},
+              "RESIZE_HEIGHT":  {"value": "256"},
               "SHOW_VIDEO":  {"value": "True"}
             },
             "settings": {
@@ -72,7 +72,7 @@
             "status": "running",
             "restartPolicy": "always",
             "env": {
-              "THRESHOLD": {"value": 0.6}
+              "THRESHOLD": {"value": "0.6"}
             },
             "settings": {
               "image": "${MODULES.SenseHatDisplay.arm32v7}",
