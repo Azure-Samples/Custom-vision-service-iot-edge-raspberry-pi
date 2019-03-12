@@ -117,7 +117,7 @@ if __name__ == '__main__':
         IMAGE_PROCESSING_ENDPOINT = os.getenv('IMAGE_PROCESSING_ENDPOINT', "")
         IMAGE_PROCESSING_PARAMS = os.getenv('IMAGE_PROCESSING_PARAMS', "")
         IMAGE_STORAGE_ENDPOINT = os.getenv('IMAGE_STORAGE_ENDPOINT', "")
-        STORE_IMAGE = os.getenv('STORE_IMAGE', 'False')
+        STORE_IMAGE = __convertStringToBool(os.getenv('STORE_IMAGE', 'False'))
         SHOW_VIDEO = __convertStringToBool(os.getenv('SHOW_VIDEO', 'False'))
         VERBOSE = __convertStringToBool(os.getenv('VERBOSE', 'False'))
         LOOP_VIDEO = __convertStringToBool(os.getenv('LOOP_VIDEO', 'True'))
