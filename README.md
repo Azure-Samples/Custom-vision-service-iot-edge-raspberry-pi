@@ -27,6 +27,7 @@ You can run this solution on either of the following hardware:
 Check out the animation below to see how a IoT Edge deployment works. You can also get more details through [this tutorial](https://docs.microsoft.com/en-us/azure/iot-edge/module-deployment-monitoring) to see how a IoT Edge deployment works. You must have the following services set up to use this sample:
 - **Azure IoT Hub**: This is your Cloud gateway which is needed to manage your IoT Edge devices. All deployments to Edge devices are made through an IoT Hub. You can use the free sku for this sample.
 - **Azure Container Registry**: This is where you host your containers (e.g. IoT Edge modules). Deployment manifests refer to this container registry for the IoT Edge devices to download their images.You can use the free sku for this sample.
+- **[Optional] Azure Storage**: To help with model building you can push images into Blob storage directly.
 
 
 ![IoT Edge deployment workflow](assets/IoTEdgeDeployment.gif)

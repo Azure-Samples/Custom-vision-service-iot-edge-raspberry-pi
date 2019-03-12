@@ -49,6 +49,8 @@
             "env": {
               "VIDEO_PATH": {"value": "0"},
               "IMAGE_PROCESSING_ENDPOINT":  {"value": "http://image-classifier-service:80/image"},
+              "IMAGE_STORAGE_ENDPOINT":  {"value": "{\"accountname\": \"$BLOB_STORAGE_ACCOUNTNAME\", \"accountkey\": \"$BLOB_STORAGE_ACCOUNTKEY\", \"containername\": \"$BLOB_STORAGE_CONTAINERNAME\"}"},
+              "STORE_IMAGE": {"value": "False"},
               "RESIZE_WIDTH":  {"value": "256"},
               "RESIZE_HEIGHT":  {"value": "256"},
               "SHOW_VIDEO":  {"value": "True"}
