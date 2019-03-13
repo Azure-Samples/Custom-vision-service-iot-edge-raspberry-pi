@@ -13,7 +13,6 @@ import os
 filename = 'model.pb'
 labels_filename = 'labels.txt'
 
-network_input_size = 227
 mean_values_b_g_r = (0,0,0)
 
 size = (256, 256)
@@ -28,9 +27,6 @@ def initialize():
     with tf.gfile.GFile(filename, 'rb') as f:
         graph_def.ParseFromString(f.read())
         tf.import_graph_def(graph_def, name='')
-        input_tensor = tf.get_default_graph().get_tensor_by_name("Placeholder:0")
-        network_input_size = int(input_tensor.get_shape()[1])
-        print("Adjusted network input size to " + str(network_input_size))
     print('Success!')
     print('Loading labels...', end='')
     with open(labels_filename, 'rt') as lf:
@@ -60,6 +56,9 @@ def predict_image(image):
     
     with tf.Session() as sess:
         prob_tensor = sess.graph.get_tensor_by_name(output_layer)
+
+        input_tensor_shape = sess.graph.get_tensor_by_name('Placeholder:0').shape.as_list()
+        network_input_size = input_tensor_shape[1]
 
         # w = image.shape[0]
         # h = image.shape[1]
