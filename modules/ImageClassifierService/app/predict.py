@@ -25,9 +25,12 @@ labels = []
 
 def initialize():
     print('Loading model...',end=''),
-    with tf.gfile.FastGFile(filename, 'rb') as f:
+    with tf.gfile.GFile(filename, 'rb') as f:
         graph_def.ParseFromString(f.read())
         tf.import_graph_def(graph_def, name='')
+        input_tensor = tf.get_default_graph().get_tensor_by_name("Placeholder:0")
+        network_input_size = int(input_tensor.get_shape()[1])
+        print("Adjusted network input size to " + str(network_input_size))
     print('Success!')
     print('Loading labels...', end='')
     with open(labels_filename, 'rt') as lf:
