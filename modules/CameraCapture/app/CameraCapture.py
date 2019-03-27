@@ -24,6 +24,9 @@ from AnnotationParser import AnnotationParser
 import ImageServer
 from ImageServer import ImageServer
 
+from azure.storage.blob import BlockBlobService
+from azure.storage.blob.models import ContentSettings
+
 class CameraCapture(object):
 
     def __IsInt(self,string):
@@ -38,6 +41,8 @@ class CameraCapture(object):
             videoPath,
             imageProcessingEndpoint = "",
             imageProcessingParams = "", 
+            imageStorageEndpoint = "",
+            storeImage = False,
             showVideo = False, 
             verbose = False,
             loopVideo = True,
@@ -58,6 +63,11 @@ class CameraCapture(object):
             self.imageProcessingParams = "" 
         else:
             self.imageProcessingParams = json.loads(imageProcessingParams)
+        if imageStorageEndpoint == "":
+            self.imageStorageEndpoint = "" 
+        else:
+            self.imageStorageEndpoint = json.loads(imageStorageEndpoint)
+        self.storeImage = storeImage
         self.showVideo = showVideo
         self.verbose = verbose
         self.loopVideo = loopVideo
@@ -79,6 +89,8 @@ class CameraCapture(object):
             print("   - Video path: " + self.videoPath)
             print("   - Image processing endpoint: " + self.imageProcessingEndpoint)
             print("   - Image processing params: " + json.dumps(self.imageProcessingParams))
+            print("   - Image storage endpoint: " + json.dumps(self.imageStorageEndpoint))
+            print("   - Store image: " + str(self.storeImage))
             print("   - Show video: " + str(self.showVideo))
             print("   - Loop video: " + str(self.loopVideo))
             print("   - Convert to gray: " + str(self.convertToGray))
@@ -92,6 +104,17 @@ class CameraCapture(object):
         if self.showVideo:
             self.imageServer = ImageServer(5012, self)
             self.imageServer.start()
+
+        if self.storeImage:
+            try:
+                # Create the BlockBlockService that is used to call the Blob service for the storage account
+                self.block_blob_service = BlockBlobService(account_name=self.imageStorageEndpoint["accountname"], account_key=self.imageStorageEndpoint["accountkey"]) 
+                # Create a container
+                self.block_blob_service.create_container(self.imageStorageEndpoint["containername"])
+            except Exception as e:
+                print("Failed to set up blob container: " + str(e))
+                # Allow container to continue but override storeImage
+                self.storeImage = False
 
     def __annotate(self, frame, response):
         AnnotationParserInstance = AnnotationParser()
@@ -110,6 +133,16 @@ class CameraCapture(object):
             except Exception:
                 print("Response from external processing service (status code): " + str(response.status_code))
         return json.dumps(response.json())
+
+    def __sendFrameForStorage(self, frame):
+        try:
+            blobname = time.strftime("%Y%m%d-%H%M%S.jpg")
+            result = self.block_blob_service.create_blob_from_bytes(self.imageStorageEndpoint["containername"], blobname, frame, content_settings=ContentSettings('image/jpg'))                        
+            if self.verbose:
+                print("Stored blob name [" + blobname + "]")
+        except Exception as e:
+            print("Store blob failed with: " + str(e))
+        return result
 
     def __displayTimeDifferenceInMs(self, endTime, startTime):
         return str(int((endTime-startTime) * 1000)) + " ms"
@@ -180,21 +213,24 @@ class CameraCapture(object):
                 print("Time to pre-process a frame: " + self.__displayTimeDifferenceInMs(time.time(), startPreProcessing))
                 startEncodingForProcessing = time.time()
 
+            if self.storeImage:
+                # Stores the raw image as received for later training etc
+                response = self.__sendFrameForStorage(cv2.imencode(".jpg", frame)[1].tobytes())
+
             #Process externally
             if self.imageProcessingEndpoint != "":
-
                 #Encode frame to send over HTTP
                 if self.nbOfPreprocessingSteps == 0:
-                    encodedFrame = cv2.imencode(".jpg", frame)[1].tostring()
+                    encodedFrame = cv2.imencode(".jpg", frame)[1]
                 else:
-                    encodedFrame = cv2.imencode(".jpg", preprocessedFrame)[1].tostring()
+                    encodedFrame = cv2.imencode(".jpg", preprocessedFrame)[1]
 
                 if self.verbose:
                     print("Time to encode a frame for processing: " + self.__displayTimeDifferenceInMs(time.time(), startEncodingForProcessing))
                     startProcessingExternally = time.time()
 
                 #Send over HTTP for processing
-                response = self.__sendFrameForProcessing(encodedFrame)
+                response = self.__sendFrameForProcessing(encodedFrame.tostring())
                 if self.verbose:
                     print("Time to process frame externally: " + self.__displayTimeDifferenceInMs(time.time(), startProcessingExternally))
                     startSendingToEdgeHub = time.time()

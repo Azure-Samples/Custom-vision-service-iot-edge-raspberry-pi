@@ -61,6 +61,8 @@ def main(
         videoPath,
         imageProcessingEndpoint = "",
         imageProcessingParams = "", 
+        imageStorageEndpoint = "",
+        storeImage = False,
         showVideo = False, 
         verbose = False,
         loopVideo = True,
@@ -75,6 +77,8 @@ def main(
     :param int videoPath: camera device path such as /dev/video0 or a test video file such as /TestAssets/myvideo.avi. Mandatory.
     :param str imageProcessingEndpoint: service endpoint to send the frames to for processing. Example: "http://face-detect-service:8080". Leave empty when no external processing is needed (Default). Optional.
     :param str imageProcessingParams: query parameters to send to the processing service. Example: "'returnLabels': 'true'". Empty by default. Optional.
+    :param str imageStorageEndpoint: credentials required to connect to Azure Storage. Format: "{\"accountname\": \"ACCOUNTNAME\", \"accountkey\": \"ACCOUNTKEY\", \"containername\": \"CONTAINER\"}" Optional.
+    :param bool storeImage: show the video in a windows. False by default. Optional.
     :param bool showVideo: show the video in a windows. False by default. Optional.
     :param bool verbose: show detailed logs and perf timers. False by default. Optional.
     :param bool loopVideo: when reading from a video file, it will loop this video. True by default. Optional.
@@ -92,7 +96,7 @@ def main(
         except IoTHubError as iothub_error:
             print ( "Unexpected error %s from IoTHub" % iothub_error )
             return
-        with CameraCapture(videoPath, imageProcessingEndpoint, imageProcessingParams, showVideo, verbose, loopVideo, convertToGray, resizeWidth, resizeHeight, annotate, send_to_Hub_callback) as cameraCapture:
+        with CameraCapture(videoPath, imageProcessingEndpoint, imageProcessingParams, imageStorageEndpoint, storeImage, showVideo, verbose, loopVideo, convertToGray, resizeWidth, resizeHeight, annotate, send_to_Hub_callback) as cameraCapture:
             cameraCapture.start()
     except KeyboardInterrupt:
         print ( "Camera capture module stopped" )
@@ -112,6 +116,8 @@ if __name__ == '__main__':
         VIDEO_PATH = os.environ['VIDEO_PATH']
         IMAGE_PROCESSING_ENDPOINT = os.getenv('IMAGE_PROCESSING_ENDPOINT', "")
         IMAGE_PROCESSING_PARAMS = os.getenv('IMAGE_PROCESSING_PARAMS', "")
+        IMAGE_STORAGE_ENDPOINT = os.getenv('IMAGE_STORAGE_ENDPOINT', "")
+        STORE_IMAGE = __convertStringToBool(os.getenv('STORE_IMAGE', 'False'))
         SHOW_VIDEO = __convertStringToBool(os.getenv('SHOW_VIDEO', 'False'))
         VERBOSE = __convertStringToBool(os.getenv('VERBOSE', 'False'))
         LOOP_VIDEO = __convertStringToBool(os.getenv('LOOP_VIDEO', 'True'))
@@ -124,5 +130,4 @@ if __name__ == '__main__':
         print ( error )
         sys.exit(1)
 
-    main(VIDEO_PATH, IMAGE_PROCESSING_ENDPOINT, IMAGE_PROCESSING_PARAMS, SHOW_VIDEO, VERBOSE, LOOP_VIDEO, CONVERT_TO_GRAY, RESIZE_WIDTH, RESIZE_HEIGHT, ANNOTATE)
-
+    main(VIDEO_PATH, IMAGE_PROCESSING_ENDPOINT, IMAGE_PROCESSING_PARAMS, IMAGE_STORAGE_ENDPOINT, STORE_IMAGE, SHOW_VIDEO, VERBOSE, LOOP_VIDEO, CONVERT_TO_GRAY, RESIZE_WIDTH, RESIZE_HEIGHT, ANNOTATE)
