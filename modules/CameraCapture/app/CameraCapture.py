@@ -105,7 +105,7 @@ class CameraCapture(object):
         headers = {'Content-Type': 'application/octet-stream'}
         try:
             response = requests.post(self.imageProcessingEndpoint, headers = headers, params = self.imageProcessingParams, data = frame)
-        except:
+        except Exception as e:
             print('__sendFrameForProcessing Excpetion -' + str(e))
             return "[]"
 
