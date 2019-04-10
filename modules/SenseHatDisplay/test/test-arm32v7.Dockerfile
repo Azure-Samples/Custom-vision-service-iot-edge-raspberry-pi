@@ -1,38 +1,40 @@
-FROM resin/rpi-raspbian:stretch
-#Using the stretch distribution that has python 3.5 since iothub_client.so has been compiled with python3.5
+FROM balenalib/raspberrypi3
+# The balena base image for building apps on Raspberry Pi 3.
+
+RUN echo "BUILD MODULE: SenseHatDisplay"
 
 RUN [ "cross-build-start" ]
 
-# Install dependencies to run python3
-RUN apt-get update && apt-get upgrade && apt-get install -y \
-        python3 \
-        python3-pip \
-        wget \
-        build-essential \
-        libjpeg-dev \
-        python3-dev \
-        zlib1g-dev
+# Update package index and install python
+RUN install_packages \
+    python3 \
+    python3-pip \
+    python3-dev
 
-ADD /build/arm32v7-requirements.txt .
+# Install Python packages
+COPY /build/arm32v7-requirements.txt ./
+RUN pip3 install --upgrade pip
+RUN pip3 install --upgrade setuptools
+RUN pip3 install --index-url=https://www.piwheels.org/simple -r arm32v7-requirements.txt
 
-RUN pip3 install --upgrade pip 
-RUN pip install --upgrade setuptools 
-RUN pip install -r arm32v7-requirements.txt
+# Needed by iothub_client
+RUN install_packages \
+    libboost-python1.62.0 \
+    curl \
+    libcurl4-openssl-dev
 
-#Needed to use iothub_client.so. iothub_client is manually compiled until an ARM version can be installed through pip install
-RUN apt-get install -y libboost-python1.62.0
-
-#Extra dependencies to use sense-hat on this distribution
-RUN apt-get update && apt-get install -y \
+# Extra dependencies to use sense-hat on this distribution
+RUN install_packages \
     libatlas-base-dev \
     libopenjp2-7 \
-    libtiff-tools
+    libtiff-tools \
+    i2c-tools
+
+RUN [ "cross-build-end" ]
 
 ADD /app/ .
 ADD /build/ .
 ADD /test/ .
-
-RUN [ "cross-build-end" ]  
 
 #Manually run the IntegrationTests.py or test other functions
 ENTRYPOINT ["bash"]
