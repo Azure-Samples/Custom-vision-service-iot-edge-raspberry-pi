@@ -33,7 +33,7 @@ RUN install_packages \
     # high def image processing
     libilmbase-dev libopenexr-dev
 
-# Install python packages
+# Install Python packages
 COPY /build/arm32v7-requirements.txt ./
 RUN sudo pip3 install --upgrade pip
 RUN sudo pip3 install --upgrade setuptools
