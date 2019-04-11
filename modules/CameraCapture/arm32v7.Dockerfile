@@ -35,13 +35,13 @@ RUN install_packages \
 
 # Install Python packages
 COPY /build/arm32v7-requirements.txt ./
-RUN sudo pip3 install --upgrade pip
-RUN sudo pip3 install --upgrade setuptools
-RUN sudo pip3 install --index-url=https://www.piwheels.org/simple -r arm32v7-requirements.txt
+RUN pip3 install --upgrade pip
+RUN pip3 install --upgrade setuptools
+RUN pip3 install --index-url=https://www.piwheels.org/simple -r arm32v7-requirements.txt
 
 # Cleanup
-RUN sudo rm -rf /var/lib/apt/lists/* \
-    && sudo apt-get -y autoremove
+RUN rm -rf /var/lib/apt/lists/* \
+    && apt-get -y autoremove
 
 RUN [ "cross-build-end" ]  
 

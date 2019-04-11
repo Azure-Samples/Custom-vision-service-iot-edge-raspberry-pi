@@ -31,8 +31,8 @@ RUN install_packages \
     i2c-tools
 
 # Cleanup
-RUN sudo rm -rf /var/lib/apt/lists/* \
-    && sudo apt-get -y autoremove
+RUN rm -rf /var/lib/apt/lists/* \
+    && apt-get -y autoremove
 
 RUN [ "cross-build-end" ]
 

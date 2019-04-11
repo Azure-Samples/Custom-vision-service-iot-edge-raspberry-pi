@@ -30,6 +30,10 @@ RUN install_packages \
     libtiff-tools \
     i2c-tools
 
+# Cleanup
+RUN rm -rf /var/lib/apt/lists/* \
+    && apt-get -y autoremove
+
 RUN [ "cross-build-end" ]
 
 ADD /app/ .
