@@ -1,3 +1,4 @@
-sense-hat
-rtimulib
 azure-iothub-device-client
+numpy
+rtimulib
+sense-hat

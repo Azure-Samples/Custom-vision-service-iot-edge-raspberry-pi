@@ -27,7 +27,12 @@ def receive_message_callback(message, HubManager):
     message_buffer = message.get_bytearray()
     body=message_buffer[:len(message_buffer)].decode('utf-8')
     allTagsAndProbability = json.loads(body)
-    DISPLAY_MANAGER.displayImage(MESSAGE_PARSER.highestProbabilityTagMeetingThreshold(allTagsAndProbability, THRESHOLD))
+    try:
+        DISPLAY_MANAGER.displayImage(MESSAGE_PARSER.highestProbabilityTagMeetingThreshold(allTagsAndProbability, THRESHOLD))
+    except Exception as error:
+        print("Message body: " + body)
+        print ( error )
+
     return IoTHubMessageDispositionResult.ACCEPTED
 
 class HubManager(object):

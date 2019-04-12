@@ -103,7 +103,12 @@ class CameraCapture(object):
 
     def __sendFrameForProcessing(self, frame):
         headers = {'Content-Type': 'application/octet-stream'}
-        response = requests.post(self.imageProcessingEndpoint, headers = headers, params = self.imageProcessingParams, data = frame)
+        try:
+            response = requests.post(self.imageProcessingEndpoint, headers = headers, params = self.imageProcessingParams, data = frame)
+        except Exception as e:
+            print('__sendFrameForProcessing Excpetion -' + str(e))
+            return "[]"
+
         if self.verbose:
             try:
                 print("Response from external processing service: (" + str(response.status_code) + ") " + json.dumps(response.json()))
@@ -121,7 +126,7 @@ class CameraCapture(object):
             time.sleep(1.0)#needed to load at least one frame into the VideoStream class
             #self.capture = cv2.VideoCapture(int(self.videoPath))
         else:
-            #In the case of a video file, we want to analyze all the frames fo the video thus are not using VideoStream class
+            #In the case of a video file, we want to analyze all the frames of the video thus are not using VideoStream class
             self.capture = cv2.VideoCapture(self.videoPath)
         return self
 
@@ -198,7 +203,7 @@ class CameraCapture(object):
                 if self.verbose:
                     print("Time to process frame externally: " + self.__displayTimeDifferenceInMs(time.time(), startProcessingExternally))
                     startSendingToEdgeHub = time.time()
-                
+
                 #forwarding outcome of external processing to the EdgeHub
                 if response != "[]" and self.sendToHubCallback is not None:
                     self.sendToHubCallback(response)
