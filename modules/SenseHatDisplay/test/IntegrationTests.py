@@ -1,8 +1,8 @@
+from DisplayManager import DisplayManager
+import DisplayManager
 import time
 import sys
 sys.path.insert(0, '../app/')
-import DisplayManager
-from DisplayManager import DisplayManager
 
 
 try:
@@ -27,4 +27,4 @@ try:
         displayManager.displayImage('none')
         time.sleep(1)
 except Exception as exception:
-    print ( "Error while executing Display Manager tests: (%s)" % exception)
+    print("Error while executing Display Manager tests: (%s)" % exception)
