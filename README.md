@@ -7,6 +7,7 @@ products:
 - azure-iot-edge
 page_type: sample
 description: "This is a sample showing how to deploy a Custom Vision model to a Raspberry Pi 3 device running Azure IoT Edge."
+urlFragment: custom-vision-azure-iot
 ---
 
 # Custom Vision + Azure IoT Edge on a Raspberry Pi 3
