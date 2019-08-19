@@ -1,5 +1,6 @@
-FROM balenalib/raspberrypi3
-# The balena base image for building apps on Raspberry Pi 3.
+FROM balenalib/raspberrypi3:stretch
+# The balena base image for building apps on Raspberry Pi 3. 
+# Raspbian Stretch required for piwheels support. https://downloads.raspberrypi.org/raspbian/images/raspbian-2019-04-09/
 
 RUN echo "BUILD MODULE: CameraCapture"
 
