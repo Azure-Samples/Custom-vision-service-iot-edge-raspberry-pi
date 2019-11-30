@@ -1,7 +1,7 @@
 
 from urllib.request import urlopen
 
-import tensorflow as tf
+import tensorflow.compat.v1 as tf
 
 from PIL import Image
 import numpy as np
