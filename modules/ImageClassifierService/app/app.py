@@ -17,7 +17,7 @@ from predict import initialize, predict_image, predict_url
 app = Flask(__name__)
 
 # 4MB Max image size limit
-app.config['MAX_CONTENT_LENGTH'] = 4 * 1024 * 1024 
+app.config['MAX_CONTENT_LENGTH'] = 4 * 1024 * 1024
 
 # Default route just shows simple text
 @app.route('/')
@@ -25,7 +25,7 @@ def index():
     return 'CustomVision.ai model host harness'
 
 # Like the CustomVision.ai Prediction service /image route handles either
-#     - octet-stream image file 
+#     - octet-stream image file
 #     - a multipart/form-data with files in the imageData parameter
 @app.route('/image', methods=['POST'])
 def predict_image_handler():
@@ -47,7 +47,7 @@ def predict_image_handler():
 
 # Like the CustomVision.ai Prediction service /url route handles url's
 # in the body of hte request of the form:
-#     { 'Url': '<http url>'}  
+#     { 'Url': '<http url>'}
 @app.route('/url', methods=['POST'])
 def predict_url_handler():
     try:
@@ -58,10 +58,10 @@ def predict_url_handler():
         print('EXCEPTION:', str(e))
         return 'Error processing image'
 
+
 if __name__ == '__main__':
     # Load and intialize the model
     initialize()
 
     # Run the server
     app.run(host='0.0.0.0', port=80)
-
