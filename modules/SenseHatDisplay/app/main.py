@@ -47,7 +47,7 @@ class HubManager(object):
         self.client_protocol = protocol
         self.client = IoTHubModuleClient()
         self.client.create_from_environment(protocol)
-        self.client.set_option("logtrace", 1)  # enables MQTT logging
+        self.client.set_option("logtrace", 0)  # enables MQTT logging
         self.client.set_option("messageTimeout", 10000)
 
         # sets the callback when a message arrives on "input1" queue.  Messages sent to

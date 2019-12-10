@@ -1,13 +1,9 @@
-FROM tensorflow/tensorflow:latest-py3
+FROM python:3.7-slim
 
-RUN echo "BUILD MODULE: ImageClassifierService"
+RUN pip install -U pip
+RUN pip install numpy==1.17.3 tensorflow==2.0.0 flask pillow
 
-COPY /build/amd64-requirements.txt amd64-requirements.txt
-
-# Install Python packages
-RUN pip install -r amd64-requirements.txt
- 
-ADD app /app
+COPY app /app
 
 # Expose the port
 EXPOSE 80
@@ -16,4 +12,4 @@ EXPOSE 80
 WORKDIR /app
 
 # Run the flask server for the endpoints
-CMD python app.py
+CMD python -u app.py
