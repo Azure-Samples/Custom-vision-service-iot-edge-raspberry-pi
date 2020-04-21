@@ -6,6 +6,9 @@ RUN echo "BUILD MODULE: SenseHatDisplay"
 
 RUN [ "cross-build-start" ]
 
+# Install required packages
+RUN apt update && apt install -y libgl1-mesa-glx
+
 # Update package index and install python
 RUN install_packages \
     python3 \
