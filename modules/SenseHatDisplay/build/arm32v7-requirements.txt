@@ -1,4 +1,4 @@
 azure-iothub-device-client
-numpy
+numpy==1.18.3
 rtimulib
-sense-hat
+sense-hat==2.2.0
