@@ -7,12 +7,14 @@ import random
 import sys
 import time
 
-import iothub_client
+#import iothub_client
 # pylint: disable=E0611
 # Disabling linting that is not supported by Pylint for C extensions such as iothub_client. See issue https://github.com/PyCQA/pylint/issues/1955
-from iothub_client import (IoTHubModuleClient, IoTHubClientError, IoTHubError,
-                           IoTHubMessage, IoTHubMessageDispositionResult,
-                           IoTHubTransportProvider)
+#from iothub_client import (IoTHubModuleClient, IoTHubClientError, IoTHubError,
+#                           IoTHubMessage, IoTHubMessageDispositionResult,
+#                           IoTHubTransportProvider)
+
+from azure.iot.device import IoTHubModuleClient, Message
 
 import CameraCapture
 from CameraCapture import CameraCapture
@@ -23,23 +25,16 @@ SEND_CALLBACKS = 0
 
 
 def send_to_Hub_callback(strMessage):
-    message = IoTHubMessage(bytearray(strMessage, 'utf8'))
-    hubManager.send_event_to_output("output1", message, 0)
+    message = Message(bytearray(strMessage, 'utf8'))
+    hubManager.send_message_to_output(message, "output1")
 
 # Callback received when the message that we're forwarding is processed.
-
-
-def send_confirmation_callback(message, result, user_context):
-    global SEND_CALLBACKS
-    SEND_CALLBACKS += 1
-
 
 class HubManager(object):
 
     def __init__(
             self,
             messageTimeout,
-            protocol,
             verbose):
         '''
         Communicate with the Edge Hub
@@ -49,18 +44,16 @@ class HubManager(object):
         :param bool verbose: set to true to get detailed logs on messages
         '''
         self.messageTimeout = messageTimeout
-        self.client_protocol = protocol
-        self.client = IoTHubModuleClient()
-        self.client.create_from_environment(protocol)
-        self.client.set_option("messageTimeout", self.messageTimeout)
-        self.client.set_option("product_info", "edge-camera-capture")
-        if verbose:
-            self.client.set_option("logtrace", 1)  # enables MQTT logging
+        self.client = IoTHubModuleClient.create_from_edge_environment()
+        #self.client.set_option("messageTimeout", self.messageTimeout)
+        #self.client.set_option("product_info", "edge-camera-capture")
+        #if verbose:
+        #    self.client.set_option("logtrace", 1)  # enables MQTT logging
 
-    def send_event_to_output(self, outputQueueName, event, send_context):
-        self.client.send_event_async(
-            outputQueueName, event, send_confirmation_callback, send_context)
-
+    def send_message_to_output(self, event, outputQueueName):
+        self.client.send_message_to_output(event, outputQueueName)
+        global SEND_CALLBACKS
+        SEND_CALLBACKS += 1
 
 def main(
         videoPath,
@@ -94,8 +87,8 @@ def main(
         try:
             global hubManager
             hubManager = HubManager(
-                10000, IoTHubTransportProvider.MQTT, verbose)
-        except IoTHubError as iothub_error:
+                10000, verbose)
+        except Exception as iothub_error:
             print("Unexpected error %s from IoTHub" % iothub_error)
             return
         with CameraCapture(videoPath, imageProcessingEndpoint, imageProcessingParams, showVideo, verbose, loopVideo, convertToGray, resizeWidth, resizeHeight, annotate, send_to_Hub_callback) as cameraCapture:
