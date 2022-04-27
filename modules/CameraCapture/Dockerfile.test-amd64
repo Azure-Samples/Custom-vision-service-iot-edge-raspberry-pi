@@ -1,0 +1,16 @@
+FROM amd64/python:3.7-slim-buster
+
+# Install Python packages
+COPY requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt
+
+ADD /app/ .
+ADD /test/ .
+
+# Expose the port
+EXPOSE 5012
+
+# Set the working directory
+WORKDIR /app
+
+ENTRYPOINT [ "python", "-u", "./main.py" ]

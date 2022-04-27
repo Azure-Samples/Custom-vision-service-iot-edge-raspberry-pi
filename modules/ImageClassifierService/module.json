@@ -4,10 +4,10 @@
     "image": {
         "repository": "$CONTAINER_REGISTRY_ADDRESS/imageclassifierservice",
         "tag": {
-            "version": "0.2.17",
+            "version": "0.2.20",
             "platforms": {
-                "amd64": "./amd64.Dockerfile",
-                "arm32v7": "./arm32v7.Dockerfile"
+                "amd64": "./Dockerfile.amd64",
+                "arm64v8": "./Dockerfile.arm64v8"
             }
         }
     },

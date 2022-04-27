@@ -1,0 +1,14 @@
+FROM amd64/python:3.7-slim-buster
+
+WORKDIR /app
+
+# Install Python packages
+COPY requirements.txt ./
+RUN pip install -r requirements.txt
+
+ADD /app/ .
+
+# Expose the port
+EXPOSE 5012
+
+ENTRYPOINT [ "python3", "-u", "./main.py" ]

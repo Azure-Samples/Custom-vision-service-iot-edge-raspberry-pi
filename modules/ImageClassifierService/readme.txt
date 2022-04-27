@@ -2,7 +2,7 @@
 How to build:
 ==============================================
 
-docker build -t <your image name> .
+docker build -f Dockerfile.amd64 -t <your image name> .
 
 How to run locally:
 ==============================================

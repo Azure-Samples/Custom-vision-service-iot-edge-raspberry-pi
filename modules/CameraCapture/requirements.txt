@@ -1,6 +1,9 @@
-azure-iothub-device-client
+azure-iot-device
+azure-mgmt-iothub
 numpy
+opencv-python
 opencv-contrib-python
 requests
+asyncio
 trollius
 tornado==4.5.3

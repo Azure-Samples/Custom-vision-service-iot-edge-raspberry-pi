@@ -1,7 +1,9 @@
-﻿FROM python:3.7-slim
+﻿FROM amd64/python:3.7-slim-buster
 
-RUN pip install -U pip
-RUN pip install numpy==1.17.3 tensorflow==2.0.0 flask pillow
+
+# Install Python packages
+COPY requirements.txt ./
+RUN pip install -r requirements.txt
 
 RUN mkdir app
 COPY ./app/app-amd64.py ./app/app.py

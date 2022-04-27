@@ -2,7 +2,7 @@
   "modulesContent": {
     "$edgeAgent": {
       "properties.desired": {
-        "schemaVersion": "1.0",
+        "schemaVersion": "1.1",
         "runtime": {
           "type": "docker",
           "settings": {
@@ -21,7 +21,7 @@
           "edgeAgent": {
             "type": "docker",
             "settings": {
-              "image": "mcr.microsoft.com/azureiotedge-agent:1.0",
+              "image": "mcr.microsoft.com/azureiotedge-agent:1.1",
               "createOptions": ""
             }
           },
@@ -30,7 +30,7 @@
             "status": "running",
             "restartPolicy": "always",
             "settings": {
-              "image": "mcr.microsoft.com/azureiotedge-hub:1.0",
+              "image": "mcr.microsoft.com/azureiotedge-hub:1.1",
               "createOptions": ""
             },
             "env": {
@@ -54,7 +54,7 @@
               "SHOW_VIDEO":  {"value": "True"}
             },
             "settings": {
-              "image": "${MODULES.CameraCapture.arm32v7}",
+              "image": "${MODULES.CameraCapture}",
               "createOptions": {
                 "HostConfig": {
                   "PortBindings": {
@@ -75,7 +75,7 @@
               "THRESHOLD": {"value": "0.6"}
             },
             "settings": {
-              "image": "${MODULES.SenseHatDisplay.arm32v7}",
+              "image": "${MODULES.SenseHatDisplay}",
               "createOptions": {
                 "HostConfig":{
                   "Binds":["/dev/i2c1:/dev/i2c1"],
@@ -90,7 +90,7 @@
             "status": "running",
             "restartPolicy": "always",
             "settings": {
-              "image": "${MODULES.ImageClassifierService.arm32v7}",
+              "image": "${MODULES.ImageClassifierService}",
               "createOptions": ""
             }
           }
@@ -99,7 +99,7 @@
     },
     "$edgeHub": {
       "properties.desired": {
-        "schemaVersion": "1.0",
+        "schemaVersion": "1.2",
         "routes": {
           "CameraCaptureToSenseHatDisplay": "FROM /messages/modules/camera-capture/outputs/output1 INTO BrokeredEndpoint(\"/modules/sensehat-display/inputs/input1\")",
           "CameraCaptureToIoTHub": "FROM /messages/modules/camera-capture/outputs/output1 INTO $upstream",
