@@ -1,4 +1,4 @@
-FROM amd64/python:3.7-slim-buster
+FROM arm64v8/python:3.7-slim-buster
 
 RUN apt-get update && \
 # required for opencv
@@ -21,6 +21,7 @@ COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
 ADD /app/ .
+ADD /test/ .
 
 # Expose the port
 EXPOSE 5012

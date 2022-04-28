@@ -35,7 +35,13 @@
             "console": "integratedTerminal",
             "env": {
                 "EdgeHubConnectionString": "${config:azure-iot-edge.EdgeHubConnectionString}",
-                "EdgeModuleCACertificateFile": "${config:azure-iot-edge.EdgeModuleCACertificateFile}"
+                "EdgeModuleCACertificateFile": "${config:azure-iot-edge.EdgeModuleCACertificateFile}",
+                "VIDEO_PATH": "${workspaceFolder}/modules/CameraCapture/test/AppleAndBanana.mp4",
+                "IMAGE_PROCESSING_ENDPOINT": "http://127.0.0.1:80/image",
+                "VERBOSE": "True",
+                "RESIZE_WIDTH": "256",
+                "RESIZE_HEIGHT": "256",
+                "SHOW_VIDEO": "False"
             },
             "windows": {
                 "program": "${workspaceFolder}\\modules\\CameraCapture\\app\\main.py"

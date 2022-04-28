@@ -51,7 +51,7 @@
               "IMAGE_PROCESSING_ENDPOINT":  {"value": "http://image-classifier-service:80/image"},
               "RESIZE_WIDTH":  {"value": "256"},
               "RESIZE_HEIGHT":  {"value": "256"},
-              "SHOW_VIDEO":  {"value": "True"}
+              "SHOW_VIDEO":  {"value": "False"}
             },
             "settings": {
               "image": "${MODULES.CameraCapture}",
@@ -62,24 +62,6 @@
                   },
                   "Binds": ["/dev/video0:/dev/video0"],
                   "Devices":[{"PathOnHost":"/dev/video0","PathInContainer":"/dev/video0","CgroupPermissions":"mrw"}]
-                }
-              }
-            }
-          },
-          "sensehat-display": {
-            "version": "1.0",
-            "type": "docker",
-            "status": "running",
-            "restartPolicy": "always",
-            "env": {
-              "THRESHOLD": {"value": "0.6"}
-            },
-            "settings": {
-              "image": "${MODULES.SenseHatDisplay}",
-              "createOptions": {
-                "HostConfig":{
-                  "Binds":["/dev/i2c1:/dev/i2c1"],
-                  "Privileged":true
                 }
               }
             }
@@ -99,9 +81,8 @@
     },
     "$edgeHub": {
       "properties.desired": {
-        "schemaVersion": "1.2",
+        "schemaVersion": "1.1",
         "routes": {
-          "CameraCaptureToSenseHatDisplay": "FROM /messages/modules/camera-capture/outputs/output1 INTO BrokeredEndpoint(\"/modules/sensehat-display/inputs/input1\")",
           "CameraCaptureToIoTHub": "FROM /messages/modules/camera-capture/outputs/output1 INTO $upstream",
           "CameraCaptureGAToIoTHub": "FROM /messages/modules/CameraCaptureGA/outputs/* INTO $upstream"
         },
