@@ -35,7 +35,7 @@ class CameraCapture(object):
 
     def __init__(
             self,
-            videoPath,
+            videoPath="0",
             imageProcessingEndpoint = "",
             imageProcessingParams = "", 
             showVideo = False, 
@@ -45,6 +45,7 @@ class CameraCapture(object):
             resizeWidth = 0,
             resizeHeight = 0,
             annotate = False,
+            bypassIot = False,
             sendToHubCallback = None):
         self.videoPath = videoPath
         if self.__IsInt(videoPath):
