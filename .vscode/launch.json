@@ -2,6 +2,7 @@
     // Use IntelliSense to learn about possible attributes.
     // Hover to view descriptions of existing attributes.
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    // "${workspaceFolder}/modules/CameraCapture/test/AppleAndBanana.mp4"
     "version": "0.2.0",
     "configurations": [
         {
@@ -36,12 +37,12 @@
             "env": {
                 "EdgeHubConnectionString": "${config:azure-iot-edge.EdgeHubConnectionString}",
                 "EdgeModuleCACertificateFile": "${config:azure-iot-edge.EdgeModuleCACertificateFile}",
-                "VIDEO_PATH": "${workspaceFolder}/modules/CameraCapture/test/AppleAndBanana.mp4",
                 "IMAGE_PROCESSING_ENDPOINT": "http://127.0.0.1:80/image",
                 "VERBOSE": "True",
                 "RESIZE_WIDTH": "256",
                 "RESIZE_HEIGHT": "256",
-                "SHOW_VIDEO": "False"
+                "SHOW_VIDEO": "True",
+                "BYPASS_IOT": "True"
             },
             "windows": {
                 "program": "${workspaceFolder}\\modules\\CameraCapture\\app\\main.py"
