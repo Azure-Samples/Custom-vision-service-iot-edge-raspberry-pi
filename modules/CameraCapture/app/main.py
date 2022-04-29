@@ -57,6 +57,7 @@ class HubManager(object):
         SEND_CALLBACKS += 1
 
 def main(
+        debugy=False,
         videoPath="0",
         imageProcessingEndpoint="",
         imageProcessingParams="",
@@ -86,6 +87,11 @@ def main(
     try:
         print("\nPython %s\n" % sys.version)
         print("Camera Capture Azure IoT Edge Module. Press Ctrl-C to exit.")
+        #if debugy:
+        #    print("Wait for debugger!!!")
+        #    import debugpy
+        #    debugpy.listen(5678)
+        #    debugpy.wait_for_client()  # blocks execution until client is attached
         try:
             if not bypassIot:
                 global hubManager
@@ -111,6 +117,7 @@ def __convertStringToBool(env):
 
 if __name__ == '__main__':
     try:
+        DEBUGY = __convertStringToBool(os.getenv('DEBUG', 'False'))
         VIDEO_PATH = os.getenv('VIDEO_PATH', "0")
         IMAGE_PROCESSING_ENDPOINT = os.getenv('IMAGE_PROCESSING_ENDPOINT', "")
         IMAGE_PROCESSING_PARAMS = os.getenv('IMAGE_PROCESSING_PARAMS', "")
@@ -128,5 +135,5 @@ if __name__ == '__main__':
         print(error)
         sys.exit(1)
 
-    main(VIDEO_PATH, IMAGE_PROCESSING_ENDPOINT, IMAGE_PROCESSING_PARAMS, SHOW_VIDEO,
+    main(DEBUGY, VIDEO_PATH, IMAGE_PROCESSING_ENDPOINT, IMAGE_PROCESSING_PARAMS, SHOW_VIDEO,
          VERBOSE, LOOP_VIDEO, CONVERT_TO_GRAY, RESIZE_WIDTH, RESIZE_HEIGHT, ANNOTATE, BYPASS_IOT)

@@ -45,7 +45,6 @@ class CameraCapture(object):
             resizeWidth = 0,
             resizeHeight = 0,
             annotate = False,
-            bypassIot = False,
             sendToHubCallback = None):
         self.videoPath = videoPath
         if self.__IsInt(videoPath):

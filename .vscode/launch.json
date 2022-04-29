@@ -6,6 +6,22 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Python: Remote Attach",
+            "type": "python",
+            "request": "attach",
+            "connect": {
+                "host": "localhost",
+                "port": 5678
+            },
+            "pathMappings": [
+                {
+                    "localRoot": "${workspaceFolder}/modules/CameraCapture/app",
+                    "remoteRoot": "/app"
+                }
+            ],
+            "justMyCode": true
+        },
+        {
             "name": "CameraCapture Remote Debug (Python)",
             "type": "python",
             "request": "attach",
@@ -21,12 +37,12 @@
             ],
             "windows": {
                 "pathMappings": [
-                  {
-                    "localRoot": "${workspaceFolder}\\modules\\CameraCapture\\app",
-                    "remoteRoot": "/app"
-                  }
+                    {
+                        "localRoot": "${workspaceFolder}\\modules\\CameraCapture\\app",
+                        "remoteRoot": "/app"
+                    }
                 ]
-            }        
+            }
         },
         {
             "name": "CameraCapture Local Debug (Python)",
@@ -38,6 +54,7 @@
                 "EdgeHubConnectionString": "${config:azure-iot-edge.EdgeHubConnectionString}",
                 "EdgeModuleCACertificateFile": "${config:azure-iot-edge.EdgeModuleCACertificateFile}",
                 "IMAGE_PROCESSING_ENDPOINT": "http://127.0.0.1:80/image",
+                "DEBUG": "True",
                 "VERBOSE": "True",
                 "RESIZE_WIDTH": "256",
                 "RESIZE_HEIGHT": "256",
@@ -64,12 +81,12 @@
             ],
             "windows": {
                 "pathMappings": [
-                  {
-                    "localRoot": "${workspaceFolder}\\modules\\ImageClassifierService\\app",
-                    "remoteRoot": "/app"
-                  }
+                    {
+                        "localRoot": "${workspaceFolder}\\modules\\ImageClassifierService\\app",
+                        "remoteRoot": "/app"
+                    }
                 ]
-            }        
+            }
         },
         {
             "name": "ImageClassifierService Local Debug (Python)",
