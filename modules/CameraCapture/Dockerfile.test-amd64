@@ -16,7 +16,7 @@ apt-get -y install --no-install-recommends \
 
 WORKDIR /app
 
-RUN pip install ptvsd==4.1.3
+RUN pip install debugpy
 # Install Python packages
 COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt

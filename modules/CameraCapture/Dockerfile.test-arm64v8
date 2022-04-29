@@ -16,6 +16,7 @@ apt-get -y install --no-install-recommends \
 
 WORKDIR /app
 
+RUN pip install debugpy
 # Install Python packages
 COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
@@ -25,5 +26,6 @@ ADD /test/ .
 
 # Expose the port
 EXPOSE 5012
+EXPOSE 5678
 
 ENTRYPOINT [ "python", "-u", "./main.py" ]
