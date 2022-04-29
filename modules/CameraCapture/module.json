@@ -4,7 +4,7 @@
     "image": {
         "repository": "$CONTAINER_REGISTRY_ADDRESS/cameracapture",
         "tag": {
-            "version": "0.2.21",
+            "version": "0.2.22",
             "platforms": {
                 "amd64": "./Dockerfile.amd64",
                 "test-amd64": "./Dockerfile.test-amd64",
