@@ -2,6 +2,7 @@ namespace DisplayIO
 {
     using System;
     using System.IO;
+    using System.Collections.Generic;
     using System.Runtime.InteropServices;
     using System.Runtime.Loader;
     using System.Security.Cryptography.X509Certificates;
@@ -51,14 +52,29 @@ namespace DisplayIO
             Console.WriteLine("IoT Hub module client initialized.");
 
             // Register callback to be called when a message is received by the module
-            await ioTHubModuleClient.SetInputMessageHandlerAsync("input1", ProcessReceivedMessage, ioTHubModuleClient);
+            await ioTHubModuleClient.SetInputMessageHandlerAsync("input1", ReceivedMessage, ioTHubModuleClient);
         }
 
+        static void ProcessReceivedMessage(Message pMessage)
+        {
+            string messageData = Encoding.ASCII.GetString(pMessage.GetBytes());
+            var formattedMessage = new StringBuilder($"Received message: [{messageData}]\n");
+
+            // User set application properties can be retrieved from the Message.Properties dictionary.
+            foreach (KeyValuePair<string, string> prop in pMessage.Properties)
+            {
+                formattedMessage.AppendLine($"\tProperty: key={prop.Key}, value={prop.Value}");
+            }
+            // System properties can be accessed using their respective accessors.
+            formattedMessage.AppendLine($"\tMessageId: {pMessage.MessageId}");
+
+            Console.WriteLine($"{DateTime.Now}> {formattedMessage}");
+        }
         /// <summary>
         /// This method is called whenever the module is sent a message from the EdgeHub. 
         /// It prints all the incoming messages.
         /// </summary>
-        static async Task<MessageResponse> ProcessReceivedMessage(Message receivedMessage, object userContext)
+        static async Task<MessageResponse> ReceivedMessage(Message receivedMessage, object userContext)
         {
             int counterValue = Interlocked.Increment(ref counter);
 
@@ -70,36 +86,32 @@ namespace DisplayIO
 
             byte[] messageBytes = receivedMessage.GetBytes();
             string messageString = Encoding.UTF8.GetString(messageBytes);
-
-
             Console.WriteLine($"Received message: {counterValue}, Body: [{messageString}]");
-//            Console.WriteLine($"{DateTime.Now}> {formattedMessage}");
 
             if (!string.IsNullOrEmpty(messageString))
             {
-                using (var rxMessage = new Message(messageBytes))
+                using (var pMessage = new Message(messageBytes))
                 {
-//                    string highestProbabilityTag = null;
-//                    double highestProbably = 0;
                     foreach (var prop in receivedMessage.Properties)
                     {
-                        if (prop.Key == "predictions")
-                        {
-                            Console.WriteLine("predictions:");
-                            var predictionProp = prop.Value;
-                            foreach (var pProp in predictionProp)
-                            {
-//                                if (Equals(pProp.Key.ToString, "probability")
-//                                {
-//                                    Console.WriteLine("prob:" + pProp.Value.ToString());
-//                                    Console.WriteLine("tag:" + prop.Value);
-//                                }
-                            }
-                        }
-                        rxMessage.Properties.Add(prop.Key, prop.Value);
+                        pMessage.Properties.Add(prop.Key, prop.Value);
                     }
-                    await moduleClient.SendEventAsync("output1", rxMessage);
-                
+
+                    await moduleClient.SendEventAsync("output1", pMessage);
+//                    ProcessReceivedMessage(pMessage);
+//                    string messageData = Encoding.UTF8.GetString(pMessage.GetBytes());
+                    var formattedMessage = new StringBuilder($"Received message: [{messageString}]\n");
+
+                    // User set application properties can be retrieved from the Message.Properties dictionary.
+                    foreach (KeyValuePair<string, string> prop in receivedMessage.Properties)
+                    {
+                        formattedMessage.AppendLine($"\tProperty: key={prop.Key}, value={prop.Value}");
+                    }
+                    // System properties can be accessed using their respective accessors.
+//                    formattedMessage.AppendLine($"\tMessageId: {pMessage.MessageId}");
+
+                    Console.WriteLine($"{DateTime.Now}> {formattedMessage}");
+
                     Console.WriteLine("Received message sent");
                 }
             }
