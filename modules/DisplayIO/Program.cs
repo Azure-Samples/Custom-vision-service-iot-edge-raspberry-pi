@@ -58,7 +58,7 @@ namespace DisplayIO
         /// This method is called whenever the module is sent a message from the EdgeHub. 
         /// It prints all the incoming messages.
         /// </summary>
-        static async Task<MessageResponse> ProcessReceivedMessage(Message message, object userContext)
+        static async Task<MessageResponse> ProcessReceivedMessage(Message receivedMessage, object userContext)
         {
             int counterValue = Interlocked.Increment(ref counter);
 
@@ -68,7 +68,7 @@ namespace DisplayIO
                 throw new InvalidOperationException("UserContext doesn't contain " + "expected values");
             }
 
-            byte[] messageBytes = message.GetBytes();
+            byte[] messageBytes = receivedMessage.GetBytes();
             string messageString = Encoding.UTF8.GetString(messageBytes);
 
 
@@ -81,7 +81,7 @@ namespace DisplayIO
                 {
 //                    string highestProbabilityTag = null;
 //                    double highestProbably = 0;
-                    foreach (var prop in message.Properties)
+                    foreach (var prop in receivedMessage.Properties)
                     {
                         if (prop.Key == "predictions")
                         {
