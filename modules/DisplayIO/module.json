@@ -2,18 +2,18 @@
     "$schema-version": "0.0.1",
     "description": "",
     "image": {
-        "repository": "$CONTAINER_REGISTRY_ADDRESS/cameracapture",
+        "repository": "$CONTAINER_REGISTRY_ADDRESS/displayio",
         "tag": {
-            "version": "0.2.22",
+            "version": "0.0.1",
             "platforms": {
-                "amd64": "./Dockerfile.amd64",
+                "amd64": "./Dockerfile.amd64", 
                 "amd64.debug": "./Dockerfile.amd64.debug",
                 "arm64v8": "./Dockerfile.arm64v8",
                 "arm64v8.debug": "./Dockerfile.arm64v8.debug"
             }
         },
-        "buildOptions": []
+        "buildOptions": [],
+        "contextPath": "./"
     },
-    
-    "language": "python"
+    "language": "csharp"
 }

@@ -41,6 +41,24 @@
           }
         },
         "modules": {
+          "displayio": {
+            "version": "1.0",
+            "type": "docker",
+            "status": "running",
+            "restartPolicy": "always",
+            "env": {
+              "GPIO_A": {"value": "21"},
+              "GPIO_B": {"value": "22"}
+            },
+            "settings": {
+              "image": "${MODULES.DisplayIO}",
+              "createOptions": {
+                "HostConfig": {
+                  "Privileged": true
+                }
+              }
+            }
+          },
           "camera-capture": {
             "version": "1.0",
             "type": "docker",
@@ -83,8 +101,8 @@
       "properties.desired": {
         "schemaVersion": "1.1",
         "routes": {
-          "CameraCaptureToIoTHub": "FROM /messages/modules/camera-capture/outputs/output1 INTO $upstream",
-          "CameraCaptureGAToIoTHub": "FROM /messages/modules/CameraCaptureGA/outputs/* INTO $upstream"
+          "CameraCaptureToDisplayIO": "FROM /messages/modules/camera-capture/outputs/output1 INTO BrokeredEndpoint(\"/modules/displayio/inputs/input1\")",
+          "CameraCaptureToIoTHub": "FROM /messages/modules/camera-capture/outputs/output1 INTO $upstream"
         },
         "storeAndForwardConfiguration": {
           "timeToLiveSecs": 7200
