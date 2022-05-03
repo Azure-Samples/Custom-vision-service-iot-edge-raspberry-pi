@@ -24,18 +24,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 ADD /app/ .
 ADD /test/ .
 
-# test environment
-ENV VIDEO_PATH "./AppleAndBanana.mp4"
-ENV IMAGE_PROCESSING_ENDPOINT "http://127.0.0.1:80/image"
-ENV VERBOSE "True"
-ENV RESIZE_WIDTH "256"
-ENV RESIZE_HEIGHT "256"
-ENV SHOW_VIDEO "False"
-ENV EdgeHubConnectionString "HostName=testhomehub.azure-devices.net;GatewayHostName=home5-pc.tampabay.rr.com;DeviceId=URPI4_3;ModuleId=target;SharedAccessKey=JPbUkVmlrEj3SoiUgLIDfLxb/a3W4VWKCJ86CnjUgXk="
-ENV EdgeModuleCACertificateFile "./edge-device-ca.cert.pem"
-
 # Expose the port
 EXPOSE 5012
-EXPOSE 5678
 
 ENTRYPOINT [ "python", "-u", "./main.py" ]

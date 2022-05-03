@@ -48,7 +48,8 @@
             "restartPolicy": "always",
             "env": {
               "GPIO_A": {"value": "21"},
-              "GPIO_B": {"value": "22"}
+              "GPIO_B": {"value": "22"},
+              "Threshold": { "value": ".6" }
             },
             "settings": {
               "image": "${MODULES.DisplayIO}",
@@ -99,10 +100,10 @@
     },
     "$edgeHub": {
       "properties.desired": {
-        "schemaVersion": "1.1",
+        "schemaVersion": "1.2",
         "routes": {
-          "CameraCaptureToDisplayIO": "FROM /messages/modules/camera-capture/outputs/output1 INTO BrokeredEndpoint(\"/modules/displayio/inputs/input1\")",
-          "CameraCaptureToIoTHub": "FROM /messages/modules/camera-capture/outputs/output1 INTO $upstream"
+          "DisplayIOToIoTHub": "FROM /messages/modules/DisplayIO/outputs/* INTO $upstream",
+          "CameraCaptureToDisplayIO": "FROM /messages/modules/camera-capture/outputs/output1 INTO BrokeredEndpoint(\"/modules/DisplayIO/inputs/input1\")"
         },
         "storeAndForwardConfiguration": {
           "timeToLiveSecs": 7200

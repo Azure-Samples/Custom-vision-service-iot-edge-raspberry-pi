@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/core/runtime:3.1-buster-slim-arm64v8 AS base
+FROM mcr.microsoft.com/dotnet/runtime:6.0-focal-arm64v8 AS base
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends unzip procps && \

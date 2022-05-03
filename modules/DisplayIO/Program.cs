@@ -2,12 +2,15 @@ namespace DisplayIO
 {
     using System;
     using System.IO;
+    using System.Device.Gpio;
+    using System.Device.Gpio.Drivers;
     using System.Collections.Generic;
     using System.Runtime.InteropServices;
     using System.Runtime.Loader;
     using System.Security.Cryptography.X509Certificates;
     using System.Text;
     using System.Threading;
+    using System.Text.Json;
     using System.Threading.Tasks;
     using Microsoft.Azure.Devices.Client;
     using Microsoft.Azure.Devices.Client.Transport.Mqtt;
@@ -15,9 +18,25 @@ namespace DisplayIO
     class Program
     {
         static int counter;
+        static int GPIO_A;
+        static int GPIO_B;
+        static double threshold = 0.99;
+        static GpioController gpioController;
 
         static void Main(string[] args)
         {
+            GPIO_A = Convert.ToInt32(Environment.GetEnvironmentVariable("GPIO_A"));
+            GPIO_B = Convert.ToInt32(Environment.GetEnvironmentVariable("GPIO_B"));
+            threshold = Convert.ToDouble(Environment.GetEnvironmentVariable("Threshold"));
+            if (Environment.OSVersion.Platform == PlatformID.Unix)
+                gpioController = new GpioController(PinNumberingScheme.Logical, new LibGpiodDriver(0));
+
+            // both off
+            gpioController.OpenPin(GPIO_A, PinMode.Output);
+            gpioController.Write(GPIO_A, PinValue.Low);
+            gpioController.OpenPin(GPIO_B, PinMode.Output);
+            gpioController.Write(GPIO_B, PinValue.Low);
+
             Init().Wait();
 
             // Wait until the app unloads or is cancelled
@@ -52,29 +71,34 @@ namespace DisplayIO
             Console.WriteLine("IoT Hub module client initialized.");
 
             // Register callback to be called when a message is received by the module
-            await ioTHubModuleClient.SetInputMessageHandlerAsync("input1", ReceivedMessage, ioTHubModuleClient);
+            await ioTHubModuleClient.SetInputMessageHandlerAsync("input1", receiveMessage, ioTHubModuleClient);
         }
 
-        static void ProcessReceivedMessage(Message pMessage)
+
+        public class RxMessage
         {
-            string messageData = Encoding.ASCII.GetString(pMessage.GetBytes());
-            var formattedMessage = new StringBuilder($"Received message: [{messageData}]\n");
-
-            // User set application properties can be retrieved from the Message.Properties dictionary.
-            foreach (KeyValuePair<string, string> prop in pMessage.Properties)
+            public class Predictions
             {
-                formattedMessage.AppendLine($"\tProperty: key={prop.Key}, value={prop.Value}");
+                public string boundingBox { get; set; }
+                public double probability { get; set; }
+                public string tagId { get; set; }
+                public string tagName { get; set; }
             }
-            // System properties can be accessed using their respective accessors.
-            formattedMessage.AppendLine($"\tMessageId: {pMessage.MessageId}");
 
-            Console.WriteLine($"{DateTime.Now}> {formattedMessage}");
+            public DateTimeOffset created { get; set; }
+            public string id { get; set; }
+            public string itteration { get; set; }
+            public IList<Predictions> predictions { get; set; }
+            public string project { get; set; }
+
         }
+
+
         /// <summary>
         /// This method is called whenever the module is sent a message from the EdgeHub. 
         /// It prints all the incoming messages.
         /// </summary>
-        static async Task<MessageResponse> ReceivedMessage(Message receivedMessage, object userContext)
+        static async Task<MessageResponse> receiveMessage(Message message, object userContext)
         {
             int counterValue = Interlocked.Increment(ref counter);
 
@@ -84,33 +108,48 @@ namespace DisplayIO
                 throw new InvalidOperationException("UserContext doesn't contain " + "expected values");
             }
 
-            byte[] messageBytes = receivedMessage.GetBytes();
+            byte[] messageBytes = message.GetBytes();
             string messageString = Encoding.UTF8.GetString(messageBytes);
             Console.WriteLine($"Received message: {counterValue}, Body: [{messageString}]");
-
+            
             if (!string.IsNullOrEmpty(messageString))
             {
-                using (var pMessage = new Message(messageBytes))
+                double highestProbability = 0;
+                string highestProbabilityTag = string.Empty;
+
+                RxMessage rxMessage = JsonSerializer.Deserialize<RxMessage>(messageString);
+
+                foreach (var predicts in rxMessage.predictions)
                 {
-                    foreach (var prop in receivedMessage.Properties)
+                    if (predicts.probability > highestProbability && predicts.probability > threshold)
                     {
-                        pMessage.Properties.Add(prop.Key, prop.Value);
+                        highestProbability = predicts.probability;
+                        highestProbabilityTag = predicts.tagName;
+                        string highestProbabilityS = String.Format("{0:0.00}", highestProbability);
+                        Console.WriteLine("tagID: " + highestProbabilityTag + " Probability: " + highestProbabilityS);
+                        if (Environment.OSVersion.Platform == PlatformID.Unix)
+                        {
+                            if (0 == string.Compare(highestProbabilityTag, "Apple"))
+                            {
+                                gpioController.Write(GPIO_A, PinValue.High);
+                                gpioController.Write(GPIO_B, PinValue.Low);
+                            }
+                            if (0 == string.Compare(highestProbabilityTag, "Banana"))
+                            {
+                                gpioController.Write(GPIO_A, PinValue.Low);
+                                gpioController.Write(GPIO_B, PinValue.High);
+                            }
+                        }
                     }
+                }
 
-                    await moduleClient.SendEventAsync("output1", pMessage);
-//                    ProcessReceivedMessage(pMessage);
-//                    string messageData = Encoding.UTF8.GetString(pMessage.GetBytes());
-                    var formattedMessage = new StringBuilder($"Received message: [{messageString}]\n");
-
-                    // User set application properties can be retrieved from the Message.Properties dictionary.
-                    foreach (KeyValuePair<string, string> prop in receivedMessage.Properties)
+                using (var pipeMessage = new Message(messageBytes))
+                {
+                    foreach (var prop in message.Properties)
                     {
-                        formattedMessage.AppendLine($"\tProperty: key={prop.Key}, value={prop.Value}");
+                        pipeMessage.Properties.Add(prop.Key, prop.Value);
                     }
-                    // System properties can be accessed using their respective accessors.
-//                    formattedMessage.AppendLine($"\tMessageId: {pMessage.MessageId}");
-
-                    Console.WriteLine($"{DateTime.Now}> {formattedMessage}");
+                    await moduleClient.SendEventAsync("output1", pipeMessage);
 
                     Console.WriteLine("Received message sent");
                 }
