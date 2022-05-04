@@ -65,7 +65,8 @@
             "env": {
               "GPIO_A": { "value": "20" },
               "GPIO_B": { "value": "21" },
-              "Threshold": { "value": ".6" }
+              "THRESHOLD": { "value": ".6" },
+              "TELEMETER_ALL": { "value": "false"}
             },
             "settings": {
               "image": "${MODULES.DisplayIO}",

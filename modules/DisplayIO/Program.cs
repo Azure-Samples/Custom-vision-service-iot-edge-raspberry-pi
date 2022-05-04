@@ -18,17 +18,29 @@ namespace DisplayIO
     internal class Program
     {
         static int counter;
+    
+        // Apple detector GPIO
         static int GPIO_A;
+    
+        // Banana detector GPIO
         static int GPIO_B;
+    
+        // detection threshold
         static double threshold = 0.99;
+    
+        // telemeter all message or only when detected (default - false)
+        static bool telemeterAll = false;
+
         static GpioController gpioController;
 
         static void Main(string[] args)
         {
             GPIO_A = Convert.ToInt32(Environment.GetEnvironmentVariable("GPIO_A"));
             GPIO_B = Convert.ToInt32(Environment.GetEnvironmentVariable("GPIO_B"));
-            threshold = Convert.ToDouble(Environment.GetEnvironmentVariable("Threshold"));
+            threshold = Convert.ToDouble(Environment.GetEnvironmentVariable("THRESHOLD"));
+            telemeterAll = Convert.ToBoolean(Environment.GetEnvironmentVariable("TELEMETER_ALL"));
             Console.WriteLine($"Threshold: {threshold}");
+
             if (Architecture.Arm64 == RuntimeInformation.ProcessArchitecture)
             {
                 gpioController = new GpioController(PinNumberingScheme.Logical, new LibGpiodDriver(0));
@@ -97,6 +109,27 @@ namespace DisplayIO
         }
 
 
+        static public void Led(bool On, int gpio)
+        {
+            if (Architecture.Arm64 == RuntimeInformation.ProcessArchitecture)
+            {
+                if (gpio == GPIO_A)
+                {
+                    if (On)
+                        gpioController.Write(GPIO_A, PinValue.High);
+                    else
+                        gpioController.Write(GPIO_A, PinValue.Low);
+                }
+                if (gpio == GPIO_B)
+                {
+                    if (On)
+                        gpioController.Write(GPIO_B, PinValue.High);
+                    else
+                        gpioController.Write(GPIO_B, PinValue.Low);
+                }
+            }
+        }
+
         /// <summary>
         /// This method is called whenever the module is sent a message from the EdgeHub. 
         /// It prints all the incoming messages.
@@ -104,6 +137,7 @@ namespace DisplayIO
         static async Task<MessageResponse> receiveMessage(Message message, object userContext)
         {
             int counterValue = Interlocked.Increment(ref counter);
+            bool hit = false;
 
             var moduleClient = userContext as ModuleClient;
             if (moduleClient == null)
@@ -117,44 +151,53 @@ namespace DisplayIO
             
             if (!string.IsNullOrEmpty(messageString))
             {
-                double highestProbability = 0;
-                string highestProbabilityTag = string.Empty;
 
                 RxMessage rxMessage = JsonSerializer.Deserialize<RxMessage>(messageString);
 
                 foreach (var predicts in rxMessage.predictions)
                 {
-                    if (predicts.probability > highestProbability && predicts.probability > threshold)
+                    if (0 == string.Compare(predicts.tagName, "Apple"))
                     {
-                        highestProbability = predicts.probability;
-                        highestProbabilityTag = predicts.tagName;
-                        string highestProbabilityS = String.Format("{0:0.00}", highestProbability);
-                        Console.WriteLine("tagID: " + highestProbabilityTag + " Probability: " + highestProbabilityS);
-                        if (Architecture.Arm64 == RuntimeInformation.ProcessArchitecture)
+                        if (predicts.probability > threshold)
                         {
-                            if (0 == string.Compare(highestProbabilityTag, "Apple"))
-                            {
-                                gpioController.Write(GPIO_A, PinValue.High);
-                                gpioController.Write(GPIO_B, PinValue.Low);
-                            }
-                            if (0 == string.Compare(highestProbabilityTag, "Banana"))
-                            {
-                                gpioController.Write(GPIO_A, PinValue.Low);
-                                gpioController.Write(GPIO_B, PinValue.High);
-                            }
+                            hit = true;
+                            string probabilityS = String.Format("{0:0.00}", predicts.probability);
+                            Console.WriteLine("tagID: " + predicts.tagName + " Probability: " + probabilityS);
+                            Led(true, GPIO_A);
+                        }
+                        else
+                        {
+                            Led(false, GPIO_A);
+                        }
+                    }
+                    if (0 == string.Compare(predicts.tagName, "Banana"))
+                    {
+                        if (predicts.probability > threshold)
+                        {
+                            hit = true;
+                            string probabilityS = String.Format("{0:0.00}", predicts.probability);
+                            Console.WriteLine("tagID: " + predicts.tagName + " Probability: " + probabilityS);
+                            Led(true, GPIO_B);
+                        }
+                        else
+                        {
+                            Led(false, GPIO_B);
                         }
                     }
                 }
 
-                using (var pipeMessage = new Message(messageBytes))
+                if (hit || telemeterAll)
                 {
-                    foreach (var prop in message.Properties)
+                    using (var pipeMessage = new Message(messageBytes))
                     {
-                        pipeMessage.Properties.Add(prop.Key, prop.Value);
-                    }
-                    await moduleClient.SendEventAsync("output1", pipeMessage);
+                        foreach (var prop in message.Properties)
+                        {
+                            pipeMessage.Properties.Add(prop.Key, prop.Value);
+                        }
+                        await moduleClient.SendEventAsync("output1", pipeMessage);
 
-                    Console.WriteLine("Received message sent");
+                        Console.WriteLine("Received message sent");
+                    }
                 }
             }
             return MessageResponse.Completed;
