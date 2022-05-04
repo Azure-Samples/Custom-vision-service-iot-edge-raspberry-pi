@@ -14,8 +14,8 @@
     <ProjectGuid>3a7bbda1-e6bd-4cf3-ad28-e3691bb19044</ProjectGuid>
   </PropertyGroup>
   <PropertyGroup>
-    <EdgeTargetPlatform>Linux amd64</EdgeTargetPlatform>
-    <EdgeTargetConfiguration>Release</EdgeTargetConfiguration>
+    <EdgeTargetPlatform>Linux Amd64</EdgeTargetPlatform>
+    <EdgeTargetConfiguration>Debug</EdgeTargetConfiguration>
   </PropertyGroup>
   <Import Project="$(MSBuildToolsRoot)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Azure IoT Edge Tools\AzureIoTEdgeProject.targets" />
   <ItemGroup>

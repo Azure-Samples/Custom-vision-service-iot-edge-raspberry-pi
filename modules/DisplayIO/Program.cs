@@ -1,21 +1,21 @@
+using System.Device.Gpio;
+using System.Device.Gpio.Drivers;
+using Microsoft.Azure.Devices.Client;
+using Microsoft.Azure.Devices.Client.Transport.Mqtt;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Runtime.InteropServices;
+using System.Runtime.Loader;
+using System.Security.Cryptography.X509Certificates;
+using System.Text;
+using System.Text.Json;
+using System.Threading;
+using System.Threading.Tasks;
+
 namespace DisplayIO
 {
-    using System;
-    using System.IO;
-    using System.Device.Gpio;
-    using System.Device.Gpio.Drivers;
-    using System.Collections.Generic;
-    using System.Runtime.InteropServices;
-    using System.Runtime.Loader;
-    using System.Security.Cryptography.X509Certificates;
-    using System.Text;
-    using System.Threading;
-    using System.Text.Json;
-    using System.Threading.Tasks;
-    using Microsoft.Azure.Devices.Client;
-    using Microsoft.Azure.Devices.Client.Transport.Mqtt;
-
-    class Program
+    internal class Program
     {
         static int counter;
         static int GPIO_A;
