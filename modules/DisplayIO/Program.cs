@@ -35,8 +35,7 @@ namespace DisplayIO
 
                 // both off
                 gpioController.OpenPin(GPIO_A, PinMode.Output);
-    //            gpioController.Write(GPIO_A, PinValue.Low);
-                gpioController.Write(GPIO_A, PinValue.High);
+                gpioController.Write(GPIO_A, PinValue.Low);
                 gpioController.OpenPin(GPIO_B, PinMode.Output);
                 gpioController.Write(GPIO_B, PinValue.Low);
             }
