@@ -8,7 +8,7 @@ RUN apt-get update && \
 #USER moduleuser
 RUN curl -sSL https://aka.ms/getvsdbgsh | bash /dev/stdin -v latest -l ~/vsdbg
 
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster-arm64v8 AS build-env
+FROM mcr.microsoft.com/dotnet/sdk:6.0-focal-arm64v8 AS build-env
 WORKDIR /app
 
 COPY *.csproj ./

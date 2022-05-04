@@ -22,7 +22,7 @@
             "type": "docker",
             "settings": {
               "image": "mcr.microsoft.com/azureiotedge-agent:1.2",
-              "createOptions": ""
+              "createOptions": {}
             }
           },
           "edgeHub": {
@@ -31,7 +31,7 @@
             "restartPolicy": "always",
             "settings": {
               "image": "mcr.microsoft.com/azureiotedge-hub:1.2",
-              "createOptions": ""
+              "createOptions": {}
             },
             "env": {
                 "OptimizeForPerformance": {
@@ -42,13 +42,13 @@
         },
         "modules": {
           "displayio": {
-            "version": "1.0",
+            "version": "1.0.0",
             "type": "docker",
             "status": "running",
             "restartPolicy": "always",
             "env": {
-              "GPIO_A": {"value": "21"},
-              "GPIO_B": {"value": "22"},
+              "GPIO_A": { "value": "21" },
+              "GPIO_B": { "value": "22" },
               "Threshold": { "value": ".6" }
             },
             "settings": {
@@ -61,32 +61,38 @@
             }
           },
           "camera-capture": {
-            "version": "1.0",
+            "version": "1.0.0",
             "type": "docker",
             "status": "running",
             "restartPolicy": "always",
             "env": {
-              "VIDEO_PATH": {"value": "0"},
-              "IMAGE_PROCESSING_ENDPOINT":  {"value": "http://image-classifier-service:80/image"},
-              "RESIZE_WIDTH":  {"value": "256"},
-              "RESIZE_HEIGHT":  {"value": "256"},
-              "SHOW_VIDEO":  {"value": "True"}
+              "VIDEO_PATH": { "value": "0" },
+              "IMAGE_PROCESSING_ENDPOINT": { "value": "http://image-classifier-service:80/image" },
+              "RESIZE_WIDTH": { "value": "256" },
+              "RESIZE_HEIGHT": { "value": "256" },
+              "SHOW_VIDEO": { "value": "True" }
             },
             "settings": {
               "image": "${MODULES.CameraCapture}",
               "createOptions": {
                 "HostConfig": {
                   "PortBindings": {
-                    "5012/tcp": [ { "HostPort":"5012"}]
+                    "5012/tcp": [ { "HostPort": "5012" } ]
                   },
-                  "Binds": ["/dev/video0:/dev/video0"],
-                  "Devices":[{"PathOnHost":"/dev/video0","PathInContainer":"/dev/video0","CgroupPermissions":"mrw"}]
+                  "Binds": [ "/dev/video0:/dev/video0" ],
+                  "Devices": [
+                    {
+                      "PathOnHost": "/dev/video0",
+                      "PathInContainer": "/dev/video0",
+                      "CgroupPermissions": "mrw"
+                    }
+                  ]
                 }
               }
             }
           },
           "image-classifier-service": {
-            "version": "1.0",
+            "version": "1.0.0",
             "type": "docker",
             "status": "running",
             "restartPolicy": "always",

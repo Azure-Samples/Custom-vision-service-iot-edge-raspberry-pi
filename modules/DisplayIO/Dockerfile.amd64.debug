@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/core/runtime:3.1-buster-slim AS base
+FROM mcr.microsoft.com/dotnet/runtime:6.0-focal AS base
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends unzip procps && \
@@ -8,7 +8,7 @@ RUN useradd -ms /bin/bash moduleuser
 USER moduleuser
 RUN curl -sSL https://aka.ms/getvsdbgsh | bash /dev/stdin -v latest -l ~/vsdbg
 
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build-env
+FROM mcr.microsoft.com/dotnet/sdk:6.0-focal AS build-env
 WORKDIR /app
 
 COPY *.csproj ./

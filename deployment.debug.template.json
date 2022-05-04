@@ -22,7 +22,7 @@
             "type": "docker",
             "settings": {
               "image": "mcr.microsoft.com/azureiotedge-agent:1.2",
-              "createOptions": ""
+              "createOptions": {}
             }
           },
           "edgeHub": {
@@ -31,23 +31,23 @@
             "restartPolicy": "always",
             "settings": {
               "image": "mcr.microsoft.com/azureiotedge-hub:1.2",
-              "createOptions": ""
+              "createOptions": {}
             }
           }
         },
         "modules": {
           "displayio": {
-            "version": "1.0",
+            "version": "1.0.0",
             "type": "docker",
             "status": "running",
             "restartPolicy": "always",
             "env": {
-              "GPIO_A": {"value": "21"},
-              "GPIO_B": {"value": "22"},
-              "Threshold": { "value": ".6" }
+              "GPIO_A": { "value": "21" },
+              "GPIO_B": { "value": "22" },
+              "Threshold":  { "value":  ".6"}
             },
             "settings": {
-              "image": "${MODULES.DisplayIO}",
+              "image": "${MODULES.DisplayIO.debug}",
               "createOptions": {
                 "HostConfig": {
                   "Privileged": true
@@ -61,19 +61,19 @@
             "status": "running",
             "restartPolicy": "always",
             "env": {
-              "VIDEO_PATH": { "value": "./AppleAndBanana.mp4"},
-              "IMAGE_PROCESSING_ENDPOINT": { "value": "http://image-classifier-service:80/image"},
-              "VERBOSE": { "value": "True"},
-              "RESIZE_WIDTH": { "value": "256"},
-              "RESIZE_HEIGHT": { "value": "256"},
-              "SHOW_VIDEO": { "value": "True"}
+              "VIDEO_PATH": { "value": "./AppleAndBanana.mp4" },
+              "IMAGE_PROCESSING_ENDPOINT": { "value": "http://image-classifier-service:80/image" },
+              "VERBOSE": { "value": "True" },
+              "RESIZE_WIDTH": { "value": "256" },
+              "RESIZE_HEIGHT": { "value": "256" },
+              "SHOW_VIDEO": { "value": "True" }
             },
             "settings": {
               "image": "${MODULES.CameraCapture.debug}",
               "createOptions": {
                 "HostConfig": {
                   "PortBindings": {
-                    "5012/tcp": [ { "HostPort":"5012"}]
+                    "5012/tcp": [ { "HostPort": "5012" } ]
                   }
                 }
               }

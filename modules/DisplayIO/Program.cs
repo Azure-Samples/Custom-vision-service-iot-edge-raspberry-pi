@@ -28,14 +28,18 @@ namespace DisplayIO
             GPIO_A = Convert.ToInt32(Environment.GetEnvironmentVariable("GPIO_A"));
             GPIO_B = Convert.ToInt32(Environment.GetEnvironmentVariable("GPIO_B"));
             threshold = Convert.ToDouble(Environment.GetEnvironmentVariable("Threshold"));
-            if (Environment.OSVersion.Platform == PlatformID.Unix)
+            Console.WriteLine($"Threshold: {threshold}");
+            if (Architecture.Arm64 == RuntimeInformation.ProcessArchitecture)
+            {
                 gpioController = new GpioController(PinNumberingScheme.Logical, new LibGpiodDriver(0));
 
-            // both off
-            gpioController.OpenPin(GPIO_A, PinMode.Output);
-            gpioController.Write(GPIO_A, PinValue.Low);
-            gpioController.OpenPin(GPIO_B, PinMode.Output);
-            gpioController.Write(GPIO_B, PinValue.Low);
+                // both off
+                gpioController.OpenPin(GPIO_A, PinMode.Output);
+    //            gpioController.Write(GPIO_A, PinValue.Low);
+                gpioController.Write(GPIO_A, PinValue.High);
+                gpioController.OpenPin(GPIO_B, PinMode.Output);
+                gpioController.Write(GPIO_B, PinValue.Low);
+            }
 
             Init().Wait();
 
@@ -127,7 +131,7 @@ namespace DisplayIO
                         highestProbabilityTag = predicts.tagName;
                         string highestProbabilityS = String.Format("{0:0.00}", highestProbability);
                         Console.WriteLine("tagID: " + highestProbabilityTag + " Probability: " + highestProbabilityS);
-                        if (Environment.OSVersion.Platform == PlatformID.Unix)
+                        if (Architecture.Arm64 == RuntimeInformation.ProcessArchitecture)
                         {
                             if (0 == string.Compare(highestProbabilityTag, "Apple"))
                             {
