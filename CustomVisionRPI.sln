@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32421.90
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{34036844-64E7-43A5-9151-4AD90E180989}") = "CustomVisionRPI", "CustomVisionRPI.iotedgeproj", "{3A7BBDA1-E6BD-4CF3-AD28-E3691BB19044}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DisplayIO", "modules\DisplayIO\DisplayIO.csproj", "{D9C0F31A-366A-4EDD-8D6A-6C144CCF897A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3A7BBDA1-E6BD-4CF3-AD28-E3691BB19044}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A7BBDA1-E6BD-4CF3-AD28-E3691BB19044}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A7BBDA1-E6BD-4CF3-AD28-E3691BB19044}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A7BBDA1-E6BD-4CF3-AD28-E3691BB19044}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9C0F31A-366A-4EDD-8D6A-6C144CCF897A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9C0F31A-366A-4EDD-8D6A-6C144CCF897A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9C0F31A-366A-4EDD-8D6A-6C144CCF897A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9C0F31A-366A-4EDD-8D6A-6C144CCF897A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {835A448F-F9EC-436B-8921-07B30C249976}
+	EndGlobalSection
+EndGlobal

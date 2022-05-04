@@ -52,7 +52,7 @@
                     ]
                   }
                 }
-                }
+              }
             }
           }
         },
@@ -66,10 +66,10 @@
               "GPIO_A": { "value": "20" },
               "GPIO_B": { "value": "21" },
               "THRESHOLD": { "value": ".6" },
-              "TELEMETER_ALL": { "value": "false"}
+              "TELEMETER_ALL": { "value": "true"}
             },
             "settings": {
-              "image": "${MODULES.DisplayIO}",
+              "image": "${MODULES.DisplayIO.debug}",
               "createOptions": {
                 "HostConfig": {
                   "Privileged": true
@@ -83,27 +83,20 @@
             "status": "running",
             "restartPolicy": "always",
             "env": {
-              "VIDEO_PATH": { "value": "0" },
+              "VIDEO_PATH": { "value": "./AppleAndBanana.mp4" },
               "IMAGE_PROCESSING_ENDPOINT": { "value": "http://image-classifier-service:80/image" },
+              "VERBOSE": { "value": "True" },
               "RESIZE_WIDTH": { "value": "256" },
               "RESIZE_HEIGHT": { "value": "256" },
               "SHOW_VIDEO": { "value": "True" }
             },
             "settings": {
-              "image": "${MODULES.CameraCapture}",
+              "image": "${MODULES.CameraCapture.debug}",
               "createOptions": {
                 "HostConfig": {
                   "PortBindings": {
                     "5012/tcp": [ { "HostPort": "5012" } ]
-                  },
-                  "Binds": [ "/dev/video0:/dev/video0" ],
-                  "Devices": [
-                    {
-                      "PathOnHost": "/dev/video0",
-                      "PathInContainer": "/dev/video0",
-                      "CgroupPermissions": "mrw"
-                    }
-                  ]
+                  }
                 }
               }
             }
@@ -127,7 +120,7 @@
         "routes": {
           "DisplayIOToIoTHub": "FROM /messages/modules/display-io/outputs/* INTO $upstream",
           "CameraCaptureToDisplayIO": "FROM /messages/modules/camera-capture/outputs/output1 INTO BrokeredEndpoint(\"/modules/display-io/inputs/input1\")"
-        },
+         },
         "storeAndForwardConfiguration": {
           "timeToLiveSecs": 7200
         }

@@ -1,0 +1,20 @@
+FROM mcr.microsoft.com/dotnet/sdk:6.0-focal-arm64v8 AS build-env
+WORKDIR /app
+
+COPY *.csproj ./
+RUN dotnet restore
+
+COPY . ./
+RUN dotnet publish -c Release -o out
+
+FROM mcr.microsoft.com/dotnet/runtime:6.0-focal-arm64v8
+WORKDIR /app
+COPY --from=build-env /app/out ./
+
+RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
+    && apt-get -y install --no-install-recommends libgpiod-dev libraspberrypi-bin
+
+#RUN useradd -ms /bin/bash moduleuser
+#USER moduleuser
+
+ENTRYPOINT ["dotnet", "DisplayIO.dll"]

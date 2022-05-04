@@ -1,0 +1,31 @@
+﻿FROM amd64/python:3.7-slim-buster
+
+RUN apt-get update && \
+# required for opencv
+apt-get -y install --no-install-recommends \
+    # GUI required by openCV
+    libgl1-mesa-glx libgtk2.0-dev \
+    # Hierarchical Data Format
+    libhdf5-dev libhdf5-serial-dev \
+    # for image files
+    libjpeg-dev libtiff5-dev libpng-dev \
+    # for video files
+    libavcodec-dev libavformat-dev libswscale-dev libv4l-dev \
+    # high def image processing
+    libilmbase-dev libopenexr-dev
+
+WORKDIR /app
+
+RUN pip install debugpy
+# Install Python packages
+COPY requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt
+
+ADD /app/ .
+ADD /test/ .
+
+# Expose the port
+EXPOSE 5012
+EXPOSE 5678
+
+ENTRYPOINT [ "python", "-u", "./main.py" ]

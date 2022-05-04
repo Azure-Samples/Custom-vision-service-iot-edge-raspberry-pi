@@ -1,0 +1,6 @@
+{
+    "azure-iot-edge.defaultPlatform": {
+        "platform": "arm64v8",
+        "alias": null
+    }
+}
