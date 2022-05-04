@@ -6,13 +6,32 @@ products:
 - azure
 - azure-iot-edge
 page_type: sample
-description: "This is a sample showing how to deploy a Custom Vision model to a Raspberry Pi 3 device running Azure IoT Edge."
+description: "This is a sample showing how to deploy a Custom Vision model to a Raspberry Pi 4 device running Azure IoT Edge."
 urlFragment: custom-vision-azure-iot
 ---
 
-# Custom Vision + Azure IoT Edge on a Raspberry Pi 3
+# Custom Vision + Azure IoT Edge on a Raspberry Pi 4
+Note: This project was originally forked from [Azure-Samples/Custom-vision-service-iot-edge-raspberry-pi](https://github.com/Azure-Samples/Custom-vision-service-iot-edge-raspberry-pi).
 
-This is a sample showing how to deploy a Custom Vision model to a Raspberry Pi 3 device running Azure IoT Edge. Custom Vision is an image classifier that is trained in the cloud with your own images. IoT Edge gives you the possibility to run this model next to your cameras, where the video data is being generated. You can thus add meaning to your video streams to detect road traffic conditions, estimate wait lines, find parking spots, etc. while keeping your video footage private, lowering your bandwidth costs and even running offline.
+I made a lot of changes:
+1. Runs on RPI 4 running Ubuntu server 20.04 64bit.
+2. Uses all 64bit DockerFiles, removed all arm32 stuff.
+3. Uses .NET 6.
+4. Removes SenseHat and justs uses two GPIO pins as indicators.
+5. Whole bunch of refactoring, renaming and clean up.
+6. Uses native RPI camera.
+
+To enable native RPI camera you need to add the following line to the /boot/firmware/config.txt file:
+
+start_x=1
+
+I also wired two LEDS to GPIO 20 and 21 on the RPI.
+
+A RED led to GPIO 20 for Apple detection indication
+
+A YELLOW led to GPIO 21 for Banana detection indication
+
+This is a sample showing how to deploy a Custom Vision model to a Raspberry Pi 4 device running Azure IoT Edge. Custom Vision is an image classifier that is trained in the cloud with your own images. IoT Edge gives you the possibility to run this model next to your cameras, where the video data is being generated. You can thus add meaning to your video streams to detect road traffic conditions, estimate wait lines, find parking spots, etc. while keeping your video footage private, lowering your bandwidth costs and even running offline.
 
 This sample can also be deployed on an x64 machine (aka your PC). It has been ported to the newer IoT Edge GA bits.
 
