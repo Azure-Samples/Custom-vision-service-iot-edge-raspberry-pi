@@ -15,7 +15,6 @@ import time
 #                           IoTHubTransportProvider)
 
 from azure.iot.device import IoTHubModuleClient, Message
-#from azure.iot.device import IoTHubDeviceClient, Message
 
 import CameraCapture
 from CameraCapture import CameraCapture
