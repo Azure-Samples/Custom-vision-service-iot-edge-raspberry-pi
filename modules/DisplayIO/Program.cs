@@ -92,17 +92,25 @@ namespace DisplayIO
 
         public class RxMessage
         {
+            public class BoundingBox
+            {
+                public double height { get; set; }
+                public double left { get; set; }
+                public double top { get; set; }
+                public double width { get; set; }
+            }
+
             public class Predictions
             {
-                public string boundingBox { get; set; }
+                public BoundingBox boundingBox { get; set; }
                 public double probability { get; set; }
-                public string tagId { get; set; }
+                public int tagId { get; set; }
                 public string tagName { get; set; }
             }
 
             public DateTimeOffset created { get; set; }
             public string id { get; set; }
-            public string itteration { get; set; }
+            public string iteration { get; set; }
             public IList<Predictions> predictions { get; set; }
             public string project { get; set; }
 

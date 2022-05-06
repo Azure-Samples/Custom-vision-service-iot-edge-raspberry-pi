@@ -1,12 +1,8 @@
 FROM arm64v8/python:3.7-slim-buster
 
-RUN apt update && apt install -y libjpeg62-turbo libopenjp2-7 libtiff5 libatlas-base-dev libxcb1
-
 # Install Python packages
 COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
-RUN pip install absl-py six protobuf wrapt gast astor termcolor keras_applications keras_preprocessing --no-deps
-RUN pip install tensorflow-aarch64
 
 COPY app /app
 
