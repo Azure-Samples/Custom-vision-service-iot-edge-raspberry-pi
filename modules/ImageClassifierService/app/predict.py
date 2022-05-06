@@ -3,6 +3,9 @@
 # 2. resize network input size to (w', h')
 # 3. pass the image to network and do inference
 # (4. if inference speed is too slow for you, try to make w' x h' smaller, which is defined with DEFAULT_INPUT_SIZE (in object_detection.py or ObjectDetection.cs))
+from urllib.request import urlopen
+from datetime import datetime
+
 import sys
 import tflite_runtime.interpreter as tflite
 import numpy as np
@@ -32,6 +35,9 @@ class TFLiteObjectDetection(ObjectDetection):
         self.interpreter.invoke()
         return self.interpreter.get_tensor(self.output_index)[0]
 
+def log_msg(msg):
+    print("{}: {}".format(datetime.now(),msg))
+
 def initialize():
     print('Loading model...',end=''),
     # Load labels
@@ -47,10 +53,16 @@ def initialize():
 def predict_image(image):
     predictions = od_model.predict_image(image)
     print(predictions)
-    return predictions
+    response = { 
+        'id': '',
+        'project': '',
+        'iteration': '',
+        'created': datetime.utcnow().isoformat(),
+        'predictions': predictions 
+    }
+    return response
 
 def predict_url(imageUrl):
     with urlopen(imageUrl) as testImage:
         image = Image.open(testImage)
         predict_image(image)
-        return predictions
