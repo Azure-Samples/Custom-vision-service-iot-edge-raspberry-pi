@@ -2,3 +2,4 @@ numpy
 flask
 pillow
 tflite-runtime
+tflite-support

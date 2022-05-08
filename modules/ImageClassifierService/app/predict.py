@@ -46,7 +46,8 @@ def initialize():
 
     global od_model
     od_model = TFLiteObjectDetection(MODEL_FILENAME, labels)
-#   image = Image.open("apple1.jpg")
+#    image = Image.open("apple1.jpg")
+#    image = Image.open("banana1.jpg")
 #    predict_image(image)
     print(len(labels), 'found. Success!')
 
