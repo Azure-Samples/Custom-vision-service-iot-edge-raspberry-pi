@@ -33,6 +33,8 @@ A RED led to GPIO 20 for Apple detection indication
 
 A YELLOW led to GPIO 21 for Banana detection indication
 
+When exporting model from Custom Vision web site use the android->Tensorflow lite selection
+
 This is a sample showing how to deploy a Custom Vision model to a Raspberry Pi 4 device running Azure IoT Edge. Custom Vision is an image classifier that is trained in the cloud with your own images. IoT Edge gives you the possibility to run this model next to your cameras, where the video data is being generated. You can thus add meaning to your video streams to detect road traffic conditions, estimate wait lines, find parking spots, etc. while keeping your video footage private, lowering your bandwidth costs and even running offline.
 
 This sample can also be deployed on an x64 machine (aka your PC). It has been ported to the newer IoT Edge GA bits.
