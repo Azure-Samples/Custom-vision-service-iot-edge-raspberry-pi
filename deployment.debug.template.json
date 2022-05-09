@@ -88,8 +88,7 @@
               "VERBOSE": { "value": "True" },
               "RESIZE_WIDTH": { "value": "256" },
               "RESIZE_HEIGHT": { "value": "256" },
-              "SHOW_VIDEO": { "value": "True" },
-              "ANNOTATE": { "value": "False" }
+              "SHOW_VIDEO": { "value": "True" }
             },
             "settings": {
               "image": "${MODULES.CameraCapture.debug}",

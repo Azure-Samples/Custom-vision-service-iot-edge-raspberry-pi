@@ -82,6 +82,7 @@ def main(
     :param int resizeWidth: resize frame width before sending to external service for processing. Does not resize by default (0). Optional.
     :param int resizeHeight: resize frame width before sending to external service for processing. Does not resize by default (0). Optional.
     :param bool annotate: when showing the video in a window, it will annotate the frames with rectangles given by the image processing service. False by default. Optional. Rectangles should be passed in a json blob with a key containing the string rectangle, and a top left corner + bottom right corner or top left corner with width and height.
+    :param bool bypassiot: When true will not initialize communication or send IoT messages. False by default Optional. 
     '''
     try:
         print("\nPython %s\n" % sys.version)
