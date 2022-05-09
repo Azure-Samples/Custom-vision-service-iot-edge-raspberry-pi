@@ -45,7 +45,8 @@ class CameraCapture(object):
             resizeWidth = 0,
             resizeHeight = 0,
             annotate = False,
-            sendToHubCallback = None):
+            sendToHubCallback = None,
+            bypassIot = False):
         self.videoPath = videoPath
         if self.__IsInt(videoPath):
             #case of a usb camera (usually mounted at /dev/video* where * is an int)
@@ -67,7 +68,10 @@ class CameraCapture(object):
         self.annotate = (self.imageProcessingEndpoint != "") and self.showVideo & annotate
         self.nbOfPreprocessingSteps = 0
         self.autoRotate = False
-        self.sendToHubCallback = sendToHubCallback
+        if bypassIot:
+            self.sendToHubCallback = None
+        else:
+            self.sendToHubCallback = sendToHubCallback
         self.vs = None
 
         if self.convertToGray:

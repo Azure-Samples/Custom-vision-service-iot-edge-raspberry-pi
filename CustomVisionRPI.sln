@@ -7,7 +7,9 @@ Project("{34036844-64E7-43A5-9151-4AD90E180989}") = "CustomVisionRPI", "CustomVi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DisplayIO", "modules\DisplayIO\DisplayIO.csproj", "{D9C0F31A-366A-4EDD-8D6A-6C144CCF897A}"
 EndProject
-Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "app", "modules\ImageClassifierService\app\app.pyproj", "{C68C548B-1355-4AB5-A694-6402E5E7EFA9}"
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "ImageClassifierService", "modules\ImageClassifierService\app\ImageClassifierService.pyproj", "{C68C548B-1355-4AB5-A694-6402E5E7EFA9}"
+EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "CameraCapture", "modules\CameraCapture\app\CameraCapture.pyproj", "{DB87FAC1-B9C0-47F3-9E7A-6D4C053E43FE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,6 +27,8 @@ Global
 		{D9C0F31A-366A-4EDD-8D6A-6C144CCF897A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C68C548B-1355-4AB5-A694-6402E5E7EFA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C68C548B-1355-4AB5-A694-6402E5E7EFA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB87FAC1-B9C0-47F3-9E7A-6D4C053E43FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB87FAC1-B9C0-47F3-9E7A-6D4C053E43FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

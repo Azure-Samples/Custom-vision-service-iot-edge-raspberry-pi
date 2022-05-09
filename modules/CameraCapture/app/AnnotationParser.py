@@ -1,5 +1,6 @@
 # To make python 2 and python 3 compatible code
 from __future__ import absolute_import
+import json
 
 # Returns rectangle boundaries in the CV2 format (topLeftX, topLeftY, bottomRightX, bottomRightY) given by a processing service
 
@@ -8,7 +9,9 @@ class AnnotationParser:
     def getCV2RectanglesFromProcessingService1(self, response):
         try:
             listOfCV2Rectangles = []
-            for item in response["regions"]:
+            jDict = json.loads(response)
+
+            for item in response["boundingBox"]:
                 for decoration in item:
                     if "box" in decoration.lower():
                         rectList = item[decoration].split(",")
