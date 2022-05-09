@@ -20,6 +20,8 @@ I made a lot of changes:
 4. Removes SenseHat and justs uses two GPIO pins as indicators.
 5. Whole bunch of refactoring, renaming and clean up.
 6. Uses native RPI camera.
+7. Uses Tensorflow Lite models
+8. Revised packages for Tensorflow Lite support
 
 To enable native RPI camera you need to add the following line to the /boot/firmware/config.txt file:
 
